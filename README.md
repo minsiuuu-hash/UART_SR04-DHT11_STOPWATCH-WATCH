@@ -13,8 +13,12 @@ Design Goal
    1) initial value = 12:00:00.00
    2) sw[0] = 1, normal watch
    3) sw[1] = 0, we can change clock time using left,right,up,down btn
+      Right btn = Min, Msec UP
+      Left btn = Hour, Sec UP
+      Up btn = Min, Msec DOWN
+      Down btn = Hour, Sec DOWN
   
-   4)  asdf
+   5)  asdf
 3. SR04
    1) ASDF
    2) 
