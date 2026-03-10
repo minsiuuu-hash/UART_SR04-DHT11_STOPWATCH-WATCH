@@ -5,8 +5,8 @@ Tool : Vivado , VS code
 Design Goal
 1. STOPWATCH Function(sw[1] = 0, stopwatch mode)
    1) initial value = 00:00:00.00, sw[6:2] = 0
-   2) sw[0] = 0, press right btn = increase stopwatch time
-   3) sw[1] = 1, press right btn = decrease stopwatch time
+   2) sw[0] = 0, press right btn(START) = increase stopwatch time
+   3) sw[1] = 1, press right btn(START) = decrease stopwatch time
    4) press left btn or rst btn = clear stopwatch time to initial value
 
 2. WATCH Function(sw[1] = 1, watch mode)
