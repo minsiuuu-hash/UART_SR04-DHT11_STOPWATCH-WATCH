@@ -14,7 +14,7 @@ Design Goal
 2. WATCH Function(sw[1] = 1, watch mode)
    1) initial value = 12:00:00.00
    2) sw[0] = 1, normal watch
-   3) sw[1] = 0, we can change clock time using left, right, up, down btn
+   3) sw[1] = 0, you can change clock time using left, right, up, down btn
       1. Right btn = Min, Msec UP
       2. Left btn = Hour, Sec UP
       3. Up btn = Min, Msec DOWN
