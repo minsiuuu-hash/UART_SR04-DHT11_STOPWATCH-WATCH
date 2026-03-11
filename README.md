@@ -1,4 +1,5 @@
-FPGA : Basys3 
+FPGA : Basys3
+Frequency = 100Mhz
 
 Tool : Vivado , VS code
 
@@ -41,6 +42,7 @@ Block Diagram
 
 1. STOPWATCH
 ![project image](img/stopwatch.png)
+tick_gen_100hz = 10msec
 make tick_count to make time <br>
 hour = 0 ~ 23, min = 0 ~ 59, sec = 0 ~ 59, msec = 0 ~ 99 <br>
 so, hour = 5bit, min = 6bit, sec = 6bit, msec = 7bit <br>
