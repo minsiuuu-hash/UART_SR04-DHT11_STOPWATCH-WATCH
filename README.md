@@ -48,6 +48,8 @@ Block Diagram
 2. WATCH
 ![project image](img/stopwatch.png)
 
+3. FULL
+![project image](img/whole.png)
 
 
 
