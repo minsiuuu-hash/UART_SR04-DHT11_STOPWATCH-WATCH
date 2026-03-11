@@ -37,9 +37,13 @@ Design Goal
       1. sensor can't measure temperature exactly, so we measure the average distance value for 2sec.
      
 
-UART
+5. UART
 
 
+Block Diagram
+
+1. STOPWATCH/WATCH
+![project image](img/stopwatch,watch.png)
 
 
 
