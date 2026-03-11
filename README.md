@@ -44,9 +44,11 @@ Block Diagram
 make tick gen 100Mhz to make time(10msec) <br>
 hour = 0 ~ 23, min = 0 ~ 59, sec = 0 ~ 59, msec = 0 ~ 99 <br>
 so, hour = 5bit, min = 6bit, sec = 6bit, msec = 7bit <br>
+
 3. WATCH 
 ![project image](img/stopwatch.png)
-4. FULL
+same like stopwatch
+5. FULL
 ![project image](img/whole.png)
 
 
