@@ -41,9 +41,12 @@ Block Diagram
 
 1. STOPWATCH
 ![project image](img/stopwatch.png)
-2. WATCH
+make tick gen 100Mhz to make time(10msec)
+hour = 0 ~ 23, min = 0 ~ 59, sec = 0 ~ 59, msec = 0 ~ 99
+so, hour = 5bit, min = 6bit, sec = 6bit, msec = 7bit
+3. WATCH
 ![project image](img/stopwatch.png)
-3. FULL
+4. FULL
 ![project image](img/whole.png)
 
 
