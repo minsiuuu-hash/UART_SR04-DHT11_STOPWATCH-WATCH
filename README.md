@@ -42,8 +42,11 @@ Design Goal
 
 Block Diagram
 
-1. STOPWATCH/WATCH
-![project image](img/stopwatch,watch.png)
+1. STOPWATCH
+![project image](img/stopwatch.png)
+
+2. WATCH
+![project image](img/stopwatch.png)
 
 
 
