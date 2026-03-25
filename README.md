@@ -63,7 +63,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
    사진추가
    각각의 시나리오
 3. FIFO B/D <br>
-   사진추가
+   ![project image](img/fifo_bd.png)<br>
    각각의 시나리오
 5. UART RX B/D <br>
    ![project image](img/uart_rx_bd.png)<br>
