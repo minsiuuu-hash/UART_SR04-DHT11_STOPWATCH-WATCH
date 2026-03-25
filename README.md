@@ -47,13 +47,34 @@ make tick_count to make time <br>
 hour = 0 ~ 23 , min = 0 ~ 59 , sec = 0 ~ 59 , msec = 0 ~ 99 <br>
 hour = 5bit , min = 6bit , sec = 6bit , msec = 7bit <br>
 
-3. WATCH 
+2. WATCH 
 ![project image](img/stopwatch.png)
 same like stopwatch
-5. FULL
+3. FULL
 ![project image](img/whole.png)
-
-
 
 in the bottom, it is our presentation.   
 [UART_SR04_DHT11_STOPWATCH_WATCH.pdf](https://github.com/user-attachments/files/25823325/UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
+
+TO VERIFICATION THIS PROJECT
+We make SYSTEM VERILOG CODE LIKE UVM
+
+1. STOPWATCH_WATCH B/D
+   사진추가
+   각각의 시나리오
+   코드추가
+3. FIFO B/D
+   사진추가
+   각각의 시나리오
+   코드추가
+5. UART RX B/D
+   사진추가
+   각각의 시나리오
+   코드추가
+7. UART FULL B/D
+  사진추가
+ 각각의 시나리오
+코드추가
+
+
+
