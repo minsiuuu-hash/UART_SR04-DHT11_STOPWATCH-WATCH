@@ -59,17 +59,17 @@ in the bottom, it is our presentation.
 TO VERIFICATION THIS PROJECT
 We make SYSTEM VERILOG CODE LIKE UVM
 
-1. STOPWATCH_WATCH B/D
+1. STOPWATCH_WATCH B/D <br>
    사진추가
    각각의 시나리오
-3. FIFO B/D
+3. FIFO B/D <br>
    사진추가
    각각의 시나리오
-5. UART RX B/D
-   사진추가
+5. UART RX B/D <br>
+   ![project image](img/uart_rx_bd.png)
    각각의 시나리오
-7. UART FULL B/D
-  사진추가
+7. UART FULL B/D <br>
+  ![project image](img/uart_bd.png)
  각각의 시나리오
 
 
