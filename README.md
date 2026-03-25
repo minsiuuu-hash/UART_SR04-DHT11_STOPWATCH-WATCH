@@ -66,10 +66,10 @@ We make SYSTEM VERILOG CODE LIKE UVM
    사진추가
    각각의 시나리오
 5. UART RX B/D <br>
-   ![project image](img/uart_rx_bd.png)
+   ![project image](img/uart_rx_d.png)
    각각의 시나리오
 7. UART FULL B/D <br>
-  ![project image](img/uart_bd.png)
+  ![project image](img/uart_d.png)
  각각의 시나리오
 
 
