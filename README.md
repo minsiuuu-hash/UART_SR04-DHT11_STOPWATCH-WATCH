@@ -62,19 +62,15 @@ We make SYSTEM VERILOG CODE LIKE UVM
 1. STOPWATCH_WATCH B/D
    사진추가
    각각의 시나리오
-   코드추가
 3. FIFO B/D
    사진추가
    각각의 시나리오
-   코드추가
 5. UART RX B/D
    사진추가
    각각의 시나리오
-   코드추가
 7. UART FULL B/D
   사진추가
  각각의 시나리오
-코드추가
 
 
 
