@@ -62,15 +62,31 @@ We make SYSTEM VERILOG CODE LIKE UVM
 1. STOPWATCH_WATCH B/D <br>
    사진추가
    각각의 시나리오
-3. FIFO B/D <br>
+2. FIFO B/D <br>
    ![project image](img/fifo_bd.png)<br>
-   각각의 시나리오
-5. UART RX B/D <br>
+   <SCENARIO><br> 
+   1) PUSH MODE<br>
+      * !FULL = wptr ++, empty = 0, if (wptr = rptr) = FULL<br>
+   2) POP MODE<br>
+      * !empty = rptr ++, full = 0, if (rptr= wptr) = EMPTY<br>
+   3) BOTH<br>
+      * FULL = rptr ++, full = 0<br>
+      * empty = wptr ++, empty = 0<br>
+      * extra = wptr ++, rptr ++<br>
+3. UART RX B/D <br>
    ![project image](img/uart_rx_bd.png)<br>
-   각각의 시나리오
-7. UART FULL B/D <br>
+   <SCENARIO><br> 
+   1) Driver Task(UART_TX)
+      * Timing UART to give 16tick.
+      * Add a mailbox between the generator and the Scoreboard,
+      * rand 8-bit TX value compared to rx_data value in mon2scb_mailbox.
+4. UART FULL B/D <br>
   ![project image](img/uart_bd.png)<br>
- 각각의 시나리오
-
+   <SCENARIO><br> 
+   1) Monitor TASK
+      * To receive the value imported from the interface reliably
+      * A total of 1.5 BIT_PERIOD is received so that it can be received from the middle (8 ticks).
+   2) Loop Back UART
+      * Compare the result data with the rand data received through gen2scb_mailbox and mon2scb_mailbox.
 
 
