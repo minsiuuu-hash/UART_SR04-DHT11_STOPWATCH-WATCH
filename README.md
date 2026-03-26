@@ -73,6 +73,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * FULL = rptr ++, full = 0<br>
       * empty = wptr ++, empty = 0<br>
       * extra = wptr ++, rptr ++<br>
+      <br>
 3. UART RX B/D <br>
    ![project image](img/uart_rx_bd.png)<br>
     SCENARIO<br> 
@@ -80,6 +81,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * Timing UART to give 16tick.
       * Add a mailbox between the generator and the Scoreboard,
       * rand 8-bit TX value compared to rx_data value in mon2scb_mailbox.
+      <br>
 4. UART FULL B/D <br>
   ![project image](img/uart_bd.png)<br>
     SCENARIO<br> 
