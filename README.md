@@ -64,7 +64,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
    각각의 시나리오
 2. FIFO B/D <br>
    ![project image](img/fifo_bd.png)<br>
-   <SCENARIO><br> 
+    SCENARIO<br> 
    1) PUSH MODE<br>
       * !FULL = wptr ++, empty = 0, if (wptr = rptr) = FULL<br>
    2) POP MODE<br>
@@ -75,14 +75,14 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * extra = wptr ++, rptr ++<br>
 3. UART RX B/D <br>
    ![project image](img/uart_rx_bd.png)<br>
-   <SCENARIO><br> 
+    SCENARIO<br> 
    1) Driver Task(UART_TX)
       * Timing UART to give 16tick.
       * Add a mailbox between the generator and the Scoreboard,
       * rand 8-bit TX value compared to rx_data value in mon2scb_mailbox.
 4. UART FULL B/D <br>
   ![project image](img/uart_bd.png)<br>
-   <SCENARIO><br> 
+    SCENARIO<br> 
    1) Monitor TASK
       * To receive the value imported from the interface reliably
       * A total of 1.5 BIT_PERIOD is received so that it can be received from the middle (8 ticks).
