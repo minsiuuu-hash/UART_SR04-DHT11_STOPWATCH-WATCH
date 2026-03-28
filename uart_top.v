@@ -130,13 +130,17 @@ module uart_rx (
                 end
             end
             START: begin
-                if (b_tick)
+                if (b_tick) begin
                     if (b_tick_cnt_reg == 5'd7) begin
                         b_tick_cnt_next = 5'd0;
-                        n_state = DATA;
+                        if (rx == 1'b0)
+                            n_state = DATA;
+                        else
+                            n_state = IDLE;
                     end else begin
-                        b_tick_cnt_next = b_tick_cnt_reg + 1;
+                        b_tick_cnt_next = b_tick_cnt_reg + 5'd1;
                     end
+                end
             end
             DATA: begin
                 if (b_tick) begin
