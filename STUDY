@@ -1,4 +1,7 @@
 동기/비동
+meta stable
+latch
+
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
   비동기 통신
