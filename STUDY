@@ -1,6 +1,7 @@
 동기/비동
 meta stable
 latch
+race condition
 
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
