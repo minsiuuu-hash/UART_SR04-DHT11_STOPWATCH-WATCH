@@ -10,6 +10,8 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
   Parity(optinal) : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
   Baudrate : 1초에 몇개의 bit를 보내는 걸 체크할꺼냐, bps(bit per sec)
             ex) 9600bps 동작 : (sys_clock/baudrate) = (100Mhz/9600bps) = 40146.66
+            oversampling
+              송신할때는 괜찮은데, 수신할 때 값을 안정적으로 받기 위해서 사용.(보통 16 oversampling)
   단점 
     고속 통신이 불리함. (Device 각각의 자체 clk을 사용하기에 error날 확률이 높아짐)
     1:1 통신.
