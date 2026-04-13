@@ -1,1 +1,8 @@
+동기/비동
+
+UART(Unviersal Asynchronous Receiver/Transmitter)
+  비동기 통신
+GND : 전압의 기준점
+Parity : Data의 홀짝 체크.(잘 사용안함, DATA,STOP 사이의 STATE)
+IDLE > START > DATA > STOP
 
