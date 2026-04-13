@@ -1,19 +1,51 @@
-동기/비동
-meta stable
-latch
+동기식 = 같은 clock 기준으로 동작하는 방식
+  장점 : 타이밍 맞추기 쉬움, 분석 쉬움, 큰 시스템 설계에 유리함
+  단점 : 클럭이 필요함, 클럭 트리, 타이밍 제약 등을 맞춰야 함
+비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
+  장점 : 반응이 빠를 수 있음, 클럭이 꼭 필요하지 않음
+  단점 : 타이밍 예측이 어려움, metastability, glitch, race 등에 취약함, 큰 설계에서는 다루기 어려움
+
+meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠깐 빠지는 현상
+  F/F는 클럭 엣지에서 입력을 샘플링해야 하는데, 입력 신호가 setup time / hold time 근처에서 바뀌면
+  출력이 바로 0 또는 1로 안정되지 못하고, 한동안 불안정한 중간 상태가 될 수 있음
+  1) 비동기 입력 
+      ex) 버튼 입력, UART RX, 외부 센서 신호
+  2) Clock Domain Crossing (CDC)
+      ex) clk_a 도메인에서 생성된 신호를 clk_b 도메인에서 바로 받음
+          서로 다른 클럭이라 샘플링 시점이 어긋날 수 있어서 metastability 가능.
+  문제점
+    출력이 0/1로 확정되는 시간이 늦어짐
+    뒤 로직이 잘못된 값으로 인식할 수 있음
+    시스템 오동작 가능
+
+  해결법
+    1) 2-stage synchronizer 사용
+    2) 멀티비트는 단순 2FF로 끝내면 안 됨(버스 전체를 각 비트별로 동기화하면 타이밍이 어긋날 수 있음)
+        handshake, gray code, async FIFO(같은 CDC 기법 사용)
+    3) 비동기 입력을 최대한 줄이기
+        버튼 입력은 debounce + synchronizer
+        외부 신호는 바로 FSM에 넣지 않기
+
+latch = enable이 켜져 있는 동안 입력이 출력으로 계속 반영되는 저장소자
+
 race condition
 
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
-  비동기 통신
+  송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기 직렬 통신
+  송/수신측에 baudrate를 약속해놔야함.
+  LSB First
+
   GND : 전압의 기준점
   Parity(optinal) : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
-  Baudrate : 1초에 몇개의 bit를 보내는 걸 체크할꺼냐, bps(bit per sec)
-            ex) 9600bps 동작 : (sys_clock/baudrate) = (100Mhz/9600bps) = 40146.66
+  Baudrate : 1초에 몇 비트를 전송할 것인가를 나타내는 값, bps(bit per sec)
+            ex) 9600bps 동작 : (sys_clock/baudrate) = (100Mhz/9600bps) = 10416.66
             oversampling
               송신할때는 괜찮은데, 수신할 때 값을 안정적으로 받기 위해서 사용.(표준: 16 oversampling)
   단점 
-    고속 통신이 불리함. (Device 각각의 자체 clk을 사용하기에 error날 확률이 높아짐)
+    고속 통신이 불리함.
+      UART는 공통 클럭선이 없어서, 송신기와 수신기가 각자 내부 클럭으로 baud timing을 맞춤.
+      이때 baud rate 오차, 클럭 오차, 샘플링 시점 오차가 누적되면, 고속일수록 수신 에러 가능성이 커질 수 있음
     1:1 통신.
 
 
