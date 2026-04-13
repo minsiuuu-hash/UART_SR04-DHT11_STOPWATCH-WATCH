@@ -27,9 +27,38 @@ meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠
         외부 신호는 바로 FSM에 넣지 않기
 
 latch = enable이 켜져 있는 동안 입력이 출력으로 계속 반영되는 저장소자
+  Latch
+    level-sensitive
+    enable=1 동안 입력이 계속 통과
+  Flip-Flop
+    edge-triggered
+    posedge/negedge 순간에만 저장
 
-race condition
+  문제점
+    타이밍 분석이 어려움
+    glitch/race에 취약
+    의도하지 않은 메모리 효과 발생
+    디버깅 어려움
 
+  해결법
+    1)모든 경우를 할당
+      case, if문에서 default 활용.
+    2)논리/순차 회로 구분
+      확실하게 역할 나누기
+
+race condition = 둘 이상의 동작 순서가 애매해서 결과가 달라질 수 있는 상황
+    이러한 상황에서 발생
+      1. 순차논리에서 blocking assignment 사용
+      2. 여러 블록이 같은 변수 제어
+      3. testbench와 DUT가 같은 시점에 신호를 읽고 씀
+      4. clocking block 없이 인터페이스 접근
+      5. combinational loop / timing ambiguity
+
+    해결법
+      1. 순차논리에는 non-blocking assignment <=
+      2. 조합논리에는 blocking =
+      3. 한 신호는 한 블록에서만 제어
+          같은 reg/logic을 여러 always 블록에서 동시에 만지지 않는 게 좋음.
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
   송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기 직렬 통신
