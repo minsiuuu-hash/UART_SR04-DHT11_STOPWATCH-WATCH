@@ -3,6 +3,13 @@
 UART(Unviersal Asynchronous Receiver/Transmitter)
   비동기 통신
   GND : 전압의 기준점
-  Parity : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
+  Parity(optinal) : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
+  Baudrate : 1초에 몇개의 bit를 보내는 걸 체크할꺼냐, bps(bit per sec)
+            ex) 9600bps 동작 : (sys_clock/baudrate) = (100Mhz/9600bps) = 40146.66
+  단점 
+    고속 통신이 불리함. (Device 각각의 자체 clk을 사용하기에 error날 확률이 높아짐)
+    1:1 통신.
+
+
   STATE : IDLE > START > DATA > STOP
 
