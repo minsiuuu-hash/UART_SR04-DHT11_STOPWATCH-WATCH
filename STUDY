@@ -124,3 +124,62 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
     DATA : 실제 데이터 비트를 baud rate에 맞춰 순서대로 전송하는 상태이다. 일반적으로 8비트를 사용하며, UART는 보통 LSB First 방식으로 하위 비트부터 전송한다.
     STOP : 데이터 전송이 끝났음을 알리기 위해 HIGH(1)를 출력하는 상태이다. 수신기는 이 비트를 확인하여 하나의 프레임이 정상적으로 종료되었는지 판단하고, 이후 다시 IDLE 상태로 복귀한다.
 
+
+
+SYSTEM VERILOG  - 검증용(Verification)
+
+WHY? SYSTEM VERILOG??
+장점 
+1. ramdomized stimulus 값 생성 TEST > 임의의 값을 자동으로 생성하여 DUT에 신호입력, constraints randomize
+2. 객체화
+CLASS 객체지향 언어 : 상속(확장), 다형성, 캡슐화(task), 추상화(단순화)
+
+new() = 생성자.  설명: 실체화를 시켜줌(객체로 만들어줌). 
+
+CLASS = 동적개체 (소프트웨어) 
+Interface, Module = 정적개체 (하드웨어)
+
+share memory > mailbox > event (크기)
+mailbox의 put,get으로도 순서를 부분적으로 맞출수있다.(데이터 전달 순서)
+
+race condition = 두 개 이상의 프로세스가 같은 자원에 동시에 접근해서 결과가 달라져서, 값이 보장되지않는 경우.
+
+Class 타입
+1. 다른 class에서 가져올때 handler를 생성해줘야함.
+2. 다른 Class를 받을 때, new() 필요하다. 안쓰면 null값이 됌.
+   Constructor의 이름은 반드시 new이여야함.   constructor =  function new() -- endfunction 
+3. class에서 interface에 접근하려면 virtual interface로 받아야 한다.
+	이유
+	class는 정적 하드웨어 신호를 직접 가질 수 없음
+	그래서 interface의 “참조”를 받아야 함
+
+virtual task = class 기능(override = 덮어쓰기) >> 대부분의 UVM느낌
+
+시간과 관련된 동작은 task에서만 가능함. function은 불가함.
+
+VERILOG > SYSTEM VERILOG
+reg , wire > logic
+bit(1state)  > bit(2state) 시뮬레이션 용, resource 감소, 사실 logic 써도된긴함.
+always @(posedge clk) > always_ff@(posedge clk)		순차회로
+always (*) > always_comb(*) 						조합회로
+
+rand = 항상 랜덤
+randc = 나온거 빼고 랜덤
+
+function 함수는 시간개념이 없음.
+task 함수는 시간개념이 있음.
+
+fork/join = 동시에 전부 실행, 모든 TASK가 끝나야 다음 line 실행.
+fork/join_any = 어떤 TASK든 끝나면 다음 line 실행. (TASK중 안끝난 부분들은 실행중)
+fork/join_none = 바로 다음 line 실행.(TASK 실행중)
+fork/join 결은 프로세스들을 동시에 시작시켜주지만, event를 활용해서 순서를 제어할수있음.
+
+assert = 반드시 일어나야만 하는데 발생하지않을 경우 error를 monitoring 함.
+porperty를 사용하는듯??
+
+debugging 할 때 display로 메시지 나타내서 확인해보는 게 좋은 방향인듯? >> monitor, strobe를 사용하는게 더 좋음.
+ex)
+task display(string name);
+	$display("%t : [%s] wdata = %h, rdata = %h", $time, name, wdata, rdata);
+endtask 하고 tr.display("gen") 이런식으로
+
