@@ -102,6 +102,13 @@ race condition = 둘 이상의 동작 순서가 애매해서 결과가 달라질
       3. 한 신호는 한 블록에서만 제어
           같은 reg/logic을 여러 always 블록에서 동시에 만지지 않는 게 좋음.
 
+Multiple driver = 하나의 신호를 여러 곳에서 동시에 구동하는 문제
+	이러한 상황에서 발생
+		RTL 설계, assign 여러 개, always 여러 개
+	해결법
+		한 신호는 한 always/assign에서만 drive
+
+
 UART(Unviersal Asynchronous Receiver/Transmitter)
   송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기 직렬 통신(1:1 통신)
   송/수신측에 baudrate를 약속해놔야함.
