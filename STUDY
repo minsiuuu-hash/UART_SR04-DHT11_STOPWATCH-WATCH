@@ -1,4 +1,5 @@
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
+f(주파수) = 1/T(주기)
 
 ~, | = 비트연산자
 !, || = 논리연산자
@@ -6,8 +7,16 @@
 DataType
 	register(reg type) = 저장할 수 있는 변수, 값을 집어넣을때
 	wire type = 출력, 연결용도의 변수, 저장불가
-z = high impedence = 전선이 끊어져있는 상태
-x = don't care = short상태
+
+4 State Logic
+	0 = 논리 0
+	1 = 논리 1
+	x = don't care = short상태
+		ex) assign w = 1'b0;
+		    assign w = 1'b1;
+	z = high impedence = 전선이 끊어져있는 상태
+		ex) assign bus = enable ? data : 1'bz;
+
 
 동기식 = 같은 clock 기준으로 동작하는 방식
   장점 : 타이밍 맞추기 쉬움, 분석 쉬움, 큰 시스템 설계에 유리함
