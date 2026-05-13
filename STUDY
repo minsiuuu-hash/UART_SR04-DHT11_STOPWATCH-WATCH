@@ -2,10 +2,10 @@
 
 ~, | = 비트연산자
 !, || = 논리연산자
-인스턴스화 >> 실체화
-assign = 출력을 연결한다
-register(reg type) = 저장할 수 있는 변수, 값을 집어넣을때
-wire = 출력, 연결용도의 변수, 저장불가
+
+DataType
+	register(reg type) = 저장할 수 있는 변수, 값을 집어넣을때
+	wire type = 출력, 연결용도의 변수, 저장불가
 z = high impedence = 전선이 끊어져있는 상태
 x = don't care = short상태
 
