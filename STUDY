@@ -17,7 +17,6 @@ DataType
 	z = high impedence = 전선이 끊어져있는 상태
 		ex) assign bus = enable ? data : 1'bz;
 
-
 동기식 = 같은 clock 기준으로 동작하는 방식
   장점 : 타이밍 맞추기 쉬움, 분석 쉬움, 큰 시스템 설계에 유리함
   단점 : 클럭이 필요함, 클럭 트리, 타이밍 제약 등을 맞춰야 함
@@ -42,6 +41,8 @@ assign 에는 ?로 조건문 가능
 always 에는 if, case문 가능
 begin end는 한줄씩 순차적으로 시작하는데 <=을 만나면 그걸 무시하고 동시에 실행함.
 genvar for문은 하드웨어를 여러 개 복제해서 만드는 문법
+
+reg [$clog2(100_000)-1:0] counter_r; 비트수 계산쉽게 가능.
 
 casex는 x값이 진짜 x인지 알아보기가 힘들어서 주의해야함
 
