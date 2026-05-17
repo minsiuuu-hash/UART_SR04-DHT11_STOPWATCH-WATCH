@@ -1,3 +1,5 @@
+DAY 17
+
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기)
 
