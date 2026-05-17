@@ -160,7 +160,17 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
    		DATA : 실제 데이터 비트를 baud rate에 맞춰 순서대로 전송하는 상태이다. 일반적으로 8비트를 사용하며, UART는 보통 LSB First 방식으로 하위 비트부터 전송한다.
   	 	STOP : 데이터 전송이 끝났음을 알리기 위해 HIGH(1)를 출력하는 상태이다. 수신기는 이 비트를 확인하여 하나의 프레임이 정상적으로 종료되었는지 판단하고, 이후 다시 IDLE 상태로 복귀한다.
 
+RAM(Random Access Memory)
+	휘발성 메모리, 가격이 비쌈
+ROM(Read Only Memory)
+	비휘발성메모리, 가격이 저렴
 
+FIFO(First In First Out, buffer, queue) <-> LIFO(Last In First Out, stack)
+	데이터를 꺼내는 순서가 핵심.
+	저장공간(BRAM,SRAM)이 필요함.
+	FIFO 구조 = RAM + write pointer + read pointer + full/empty logic
+	LIFO 구조 = RAM + stack pointer + full/empty logic
+	그냥 바로 처리 가능하면 FIFO/LIFO 없어도 됨. 하지만 "데이터가 들어오는 속도와 처리하는 속도"가 다르거나, 데이터를 잃으면 안 되면 FIFO/LIFO 같은 버퍼가 필요함.
 
 SYSTEM VERILOG  - 검증용(Verification)
 
