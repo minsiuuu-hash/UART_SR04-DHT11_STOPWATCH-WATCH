@@ -178,6 +178,12 @@ SR04 = 거리 센서
 	거리(cm) = ECHO_HIGH_TIME(us) / 58, ECHO_HIGH_TIME(us) = 초음파의 왕복시간.
 
 DHT11 = 온/습도 센서
+	DATA LOW 18ms 이상 유지(FPGA/MCU가 센서에게 데이터 요청), 그 후 DATA HIGH 20~40us 정도 유지(WAIT)
+	DATA는 inout 포트로 사용하고, FPGA가 보낼 때는 LOW로 당기고, 센서가 보낼 때는 FPGA가 high-Z로 놓는다. HIGH 상태는 pull-up 저항이 만들어준다.
+	[습도 정수 8bit] + [습도 소수 8bit] + [온도 정수 8bit] + [온도 소수 8bit] + [체크섬 8bit] = 총 40bit
+	bit 0 : LOW 약 50us + HIGH 약 26~28us 
+	bit 1 : LOW 약 50us + HIGH 약 70us
+	위 두개로 데이터 0/1 구분.
 
 SYSTEM VERILOG  - 검증용(Verification)
 
