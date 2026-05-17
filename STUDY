@@ -1,5 +1,3 @@
-DAY 6부터
-
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기)
 
@@ -36,8 +34,13 @@ Soc 설계할때는 보통 동기식, FPGA 설계할때는 보통 비동기식.
   비동기적 동작, clk 신호에 맞추어 동작
 
 FSM(Finite State Machine) = 제어하는 시스템
-  두가지 존재 :  Mealy, Moore
-  Mealy 가 Moore 보다 빠름.
+	두가지 존재 :  Mealy, Moore
+	Mealy
+		현재 상태와 현재 입력에 의해서 출력 결정.
+		상태 수가 적어 latency가 짧지만, glitch에 약함.
+	Moore
+		현재 상태만 보고 출력 결정.
+		상태 수가 많아 latency가 길지만, glitch에 강함.
 
 assign 에는 ?로 조건문 가능
 always 에는 if, case문 가능
@@ -74,32 +77,39 @@ meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠
         버튼 입력은 debounce + synchronizer
         외부 신호는 바로 FSM에 넣지 않기
 
-latch = enable이 켜져 있는 동안 입력이 출력으로 계속 반영되는 저장소자
   Latch
     level-sensitive
     enable=1 동안 입력이 계속 통과
-  Flip-Flop
+	gate수가 적고, noise에 약함.
+
+  	문제점
+		타이밍 분석이 어려움
+   		glitch/race에 취약
+   		의도하지 않은 메모리 효과 발생
+   		디버깅 어려움
+
+ 	 해결법
+  	  	1)모든 경우를 할당
+			case, if문에서 default 활용.
+		2)논리/순차 회로 구분
+			확실하게 역할 나누기
+
+  Flip-Flop(두개의 latch로 만듦, 이 두개는 반대의 타이밍을 가져야함.)
     edge-triggered
     posedge/negedge 순간에만 저장
-
-  문제점
-    타이밍 분석이 어려움
-    glitch/race에 취약
-    의도하지 않은 메모리 효과 발생
-    디버깅 어려움
-
-  해결법
-    1)모든 경우를 할당
-      case, if문에서 default 활용.
-    2)논리/순차 회로 구분
-      확실하게 역할 나누기
+	negative latch -> positive latch = posedge clk D-ff 
+	positive latch -> negative latch = negedge clk D-ff 
+	gate수가 많고, noise에 강함.
 
 posedge 직전이 master단이 통과하고(setup time), posegde 직후가 slave단이 통과함(hold time). 
 이 master단, slave단을 통과하는 이 시간들을 propagation delay라고 함.
 일반적으로 setup time > hold time임
-주어진 조건에 시간이 부족하면 ff를 추가해서 pipelining 하는거임 
+파이프라이닝은 긴 조합논리 경로를 여러 단계로 나눠서 각 단계의 delay를 줄이고, setup timing slack을 확보하려고 하는 것
 Ts(setup),Th(hold),Tc(combination),Tpd(propagation delay),slack(여유시간)
-Tclock >= Ts + Th + Tpd
+Setup 조건:
+Tclock >= Tpd + Tc + Ts
+Hold 조건:
+Tpd(min) + Tc(min) >= Th
 
 race condition = 둘 이상의 동작 순서가 애매해서 결과가 달라질 수 있는 상황
     이러한 상황에서 발생
