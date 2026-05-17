@@ -175,7 +175,7 @@ FIFO(First In First Out, buffer, queue) <-> LIFO(Last In First Out, stack)
 	그냥 바로 처리 가능하면 FIFO/LIFO 없어도 됨. 하지만 "데이터가 들어오는 속도와 처리하는 속도"가 다르거나, 데이터를 잃으면 안 되면 FIFO/LIFO 같은 버퍼가 필요함.
 
 SR04 = 거리 센서
-	TRIG를 최소 10us 이상 HIGH로 유지.
+	TRIG를 최소 10us 이상 HIGH로 유지(거리측정을 할거라는 명령).
 	내부적으로 약 40kHz 초음파 펄스 8개를 내보냄.
 	거리(cm) = ECHO_HIGH_TIME(us) / 58, ECHO_HIGH_TIME(us) = 초음파의 왕복시간.
 
