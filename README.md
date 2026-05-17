@@ -60,9 +60,17 @@ TO VERIFICATION THIS PROJECT
 We make SYSTEM VERILOG CODE LIKE UVM
 
 1. STOPWATCH_WATCH B/D <br>
-   사진추가
-   각각의 시나리오
-2. FIFO B/D <br>
+   ![project image](img/stopwatch_watch_bd.png)<br>
+   SCENARIO<br>
+   1) RESET
+      * result = 12:00:00:00
+   2) Stopwatch
+   3) Watch
+      * msec>sec, sec>min, min>hour
+   4) Change Time
+   5) Btn
+
+3. FIFO B/D <br>
    ![project image](img/fifo_bd.png)<br>
     SCENARIO<br> 
    1) PUSH MODE<br>
@@ -74,7 +82,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * empty = wptr ++, empty = 0<br>
       * extra = wptr ++, rptr ++<br>
       <br>
-3. UART RX B/D <br>
+4. UART RX B/D <br>
    ![project image](img/uart_rx_bd.png)<br>
     SCENARIO<br> 
    1) Driver Task(UART_TX)
@@ -82,7 +90,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * Add a mailbox between the generator and the Scoreboard,
       * rand 8-bit TX value compared to rx_data value in mon2scb_mailbox.
       <br>
-4. UART FULL B/D <br>
+5. UART FULL B/D <br>
   ![project image](img/uart_bd.png)<br>
     SCENARIO<br> 
    1) Monitor TASK
