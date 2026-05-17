@@ -8,8 +8,7 @@ module btn_debounce (
     output o_btn
 );
 
-
-    parameter CLK_DIV = 100000;
+    parameter CLK_DIV = 100_000;
     parameter F_COUNT = 100_000_000 / CLK_DIV;
     reg [$clog2(F_COUNT)-1:0] counter_reg;
     reg CLK_100khz_reg;
@@ -18,7 +17,6 @@ module btn_debounce (
         if (rst) begin
             counter_reg <= 0;
             CLK_100khz_reg <= 0;
-
         end else begin
             counter_reg <= counter_reg + 1;
             if (counter_reg == (F_COUNT - 1)) begin
@@ -46,10 +44,10 @@ module btn_debounce (
 
     always @(*) begin
         q_next = {i_btn, q_reg[7:1]};
-
     end
 
     assign debounce = &q_reg;
+    
     always @(posedge clk, posedge rst) begin
         if (rst) begin
             edge_reg <= 0;
