@@ -1,4 +1,4 @@
-FPGA : Basys3
+FPGA : Basys3(7-segment display는 common anode)
 Frequency = 100Mhz
 
 Tool : Vivado , VS code
