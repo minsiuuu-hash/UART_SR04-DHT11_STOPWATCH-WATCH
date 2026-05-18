@@ -1,4 +1,4 @@
-DAY 21
+DAY 22
 
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기)
@@ -196,6 +196,13 @@ DHT11 = 온/습도 센서
 SYSTEM VERILOG  - 검증용(Verification)
 
 WHY? SYSTEM VERILOG??
+
+VERILOG > SYSTEM VERILOG
+reg , wire > logic
+bit(1state)  > bit(2state) 시뮬레이션 용, resource 감소, 사실 logic 써도된긴함.
+always @(posedge clk) > always_ff@(posedge clk)		순차회로
+always (*) > always_comb(*) 						조합회로
+
 장점 
 1. ramdomized stimulus 값 생성 TEST > 임의의 값을 자동으로 생성하여 DUT에 신호입력, constraints randomize
 2. 객체화
@@ -216,16 +223,19 @@ WHY? SYSTEM VERILOG??
 	추상화(abstraction) : 단순화 용
 		복잡한 내부 동작은 숨기고, 필요한 기능 이름만 보여주는 것 = 사용자는 “무엇을 하는지”만 알고, “어떻게 하는지”는 몰라도 되게 만드는 것
 
-new() = 생성자.  설명: 실체화를 시켜줌(객체로 만들어줌). 
-
 CLASS = 동적개체 (소프트웨어) 
 Interface, Module = 정적개체 (하드웨어)
+
+new() = 생성자이며, class 설계도를 바탕으로 실제 객체를 메모리에 생성하는 함수.
+handle = 객체를 가르킬수있는 것.
+그래서 transaction tr;을 한 후에, tr = new();를 해야함.
+근데 UVM에서는 factory기능을 사용하기 위해 new() 대신 tr = my_transaction::type_id::create("tr"); 이런식으로 사용함.
 
 share memory > mailbox > event (크기)
 mailbox의 put,get으로도 순서를 부분적으로 맞출수있다.(데이터 전달 순서)
 
 Class 타입
-1. 다른 class에서 가져올때 handler를 생성해줘야함.
+1. 다른 class를 가져올때 handler를 생성해줘야함.
 2. 다른 Class를 받을 때, new() 필요하다. 안쓰면 null값이 됌.
    Constructor의 이름은 반드시 new이여야함.   constructor =  function new() -- endfunction 
 3. class에서 interface에 접근하려면 virtual interface로 받아야 한다.
@@ -234,12 +244,6 @@ Class 타입
 	그래서 interface의 “참조”를 받아야 함
 
 시간과 관련된 동작은 task에서만 가능함. function은 불가함.
-
-VERILOG > SYSTEM VERILOG
-reg , wire > logic
-bit(1state)  > bit(2state) 시뮬레이션 용, resource 감소, 사실 logic 써도된긴함.
-always @(posedge clk) > always_ff@(posedge clk)		순차회로
-always (*) > always_comb(*) 						조합회로
 
 rand = 항상 랜덤
 randc = 나온거 빼고 랜덤
