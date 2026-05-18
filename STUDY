@@ -199,7 +199,22 @@ WHY? SYSTEM VERILOG??
 장점 
 1. ramdomized stimulus 값 생성 TEST > 임의의 값을 자동으로 생성하여 DUT에 신호입력, constraints randomize
 2. 객체화
-CLASS 객체지향 언어 : 상속(확장), 다형성, 캡슐화(task), 추상화(단순화)
+	CLASS 객체지향 언어 : 상속(inheritance), 다형성(polymorphism), 캡슐화(encapsulation), 추상화(abstraction)
+	상속(inheritance) : 공통 코드 재사용 용도
+		기존 class를 기반으로 새로운 class를 만드는 것(extends) = 공통 기능은 부모 class에 만들고, 세부 기능은 자식 class에서 추가하거나 수정하는 것.
+		ex) class write_packet extends packet;
+	다형성(polymorphism) : 코드 수정 없이 다양한 동작 가능 용도
+		부모 타입 변수로 자식 객체를 가리키고, 실제 객체에 따라 다른 동작을 하게 하는 것 = 부모 class의 함수 앞에 "virtual" 을 붙여야 실제 자식 객체의 함수가 실행됨.
+		virtual task = class 기능(override = 덮어쓰기) >> 대부분의 UVM느낌
+		ex) packet p; -> 부모에는 transmit(); 함수가 실행되면, $display("normal packet transmit"); 이 구문을 실행함.
+			p = new uart_packet(); 
+			p.transmit();   // $display("UART packet transmit"); 실행
+			p = new spi_packet();
+			p.transmit();   // $display("SPI packet transmit"); 실행
+	캡슐화(encapsulation) : 데이터 보호 용
+		변수와 함수를 class 안에 묶는 것 = 데이터를 class 내부에 숨기고(외부에서 함부로 못 건드리게 막는 것), 정해진 method로만 접근하게 하는 것
+	추상화(abstraction) : 단순화 용
+		복잡한 내부 동작은 숨기고, 필요한 기능 이름만 보여주는 것 = 사용자는 “무엇을 하는지”만 알고, “어떻게 하는지”는 몰라도 되게 만드는 것
 
 new() = 생성자.  설명: 실체화를 시켜줌(객체로 만들어줌). 
 
@@ -209,8 +224,6 @@ Interface, Module = 정적개체 (하드웨어)
 share memory > mailbox > event (크기)
 mailbox의 put,get으로도 순서를 부분적으로 맞출수있다.(데이터 전달 순서)
 
-race condition = 두 개 이상의 프로세스가 같은 자원에 동시에 접근해서 결과가 달라져서, 값이 보장되지않는 경우.
-
 Class 타입
 1. 다른 class에서 가져올때 handler를 생성해줘야함.
 2. 다른 Class를 받을 때, new() 필요하다. 안쓰면 null값이 됌.
@@ -219,8 +232,6 @@ Class 타입
 	이유
 	class는 정적 하드웨어 신호를 직접 가질 수 없음
 	그래서 interface의 “참조”를 받아야 함
-
-virtual task = class 기능(override = 덮어쓰기) >> 대부분의 UVM느낌
 
 시간과 관련된 동작은 task에서만 가능함. function은 불가함.
 
