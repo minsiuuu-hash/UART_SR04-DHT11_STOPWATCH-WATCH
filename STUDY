@@ -17,7 +17,7 @@ DataType
 		ex) assign w = 1'b0;
 		    assign w = 1'b1;
 	z = high impedence = 전선이 끊어져있는 상태
-		ex) assign bus = enable ? data : 1'bz;
+		ex) assign bus = enable ? data : 1'bz; (inout port)
 
 동기식 = 같은 clock 기준으로 동작하는 방식
   장점 : 타이밍 맞추기 쉬움, 분석 쉬움, 큰 시스템 설계에 유리함
