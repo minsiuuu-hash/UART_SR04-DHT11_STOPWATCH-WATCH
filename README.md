@@ -53,9 +53,6 @@ same like stopwatch
 3. FULL
 ![project image](img/whole.png)
 
-in the bottom, it is our presentation.   
-[UART_SR04_DHT11_STOPWATCH_WATCH.pdf](https://github.com/user-attachments/files/25823325/UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
-
 TO VERIFICATION THIS PROJECT
 We make SYSTEM VERILOG CODE LIKE UVM
 
@@ -98,5 +95,11 @@ We make SYSTEM VERILOG CODE LIKE UVM
       * A total of 1.5 BIT_PERIOD is received so that it can be received from the middle (8 ticks).
    2) Loop Back UART
       * Compare the result data with the rand data received through gen2scb_mailbox and mon2scb_mailbox.
+
+
+in the bottom, it is our presentation.   
+[UART_SR04_DHT11_STOPWATCH_WATCH.pdf](https://github.com/user-attachments/files/25823325/UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
+[stopwatch, watch_정민수.pptx](https://github.com/user-attachments/files/27937591/stopwatch.watch_.pptx)
+[260223 반도체_설계_9조_전정묵_등_4명_team_project.pdf](https://github.com/user-attachments/files/27937644/260223._._9._._._4._team_project.pdf)
 
 
