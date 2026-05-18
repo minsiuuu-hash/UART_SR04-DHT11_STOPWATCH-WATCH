@@ -187,6 +187,12 @@ DHT11 = 온/습도 센서
 	bit 1 : LOW 약 50us + HIGH 약 70us
 	위 두개로 데이터 0/1 구분.
 
+
+
+
+
+
+
 SYSTEM VERILOG  - 검증용(Verification)
 
 WHY? SYSTEM VERILOG??
