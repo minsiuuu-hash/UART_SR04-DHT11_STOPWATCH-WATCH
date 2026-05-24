@@ -27,6 +27,7 @@ Design Goal
       2. Angle = -15º ~ 15º
       4. Out Signal = HIGH pulse
    2) sensor can't measure distance exactly, so we measure the average distance value for 2sec.
+   3) Right btn = Start Measuring btn
 
 4. DHT11
    1) SPEC
@@ -36,6 +37,7 @@ Design Goal
       1. sensor can't measure humidity exactly, so we measure the average distance value for 2sec.  
    3) Temperature (sw[5:0] = 6'b010000)
       1. sensor can't measure temperature exactly, so we measure the average distance value for 2sec.
+   4) Right btn = Start Measuring btn
      
 
 Block Diagram
