@@ -289,7 +289,6 @@ module ascii_decoder (
                 8'h6c: ascii_data = 4'b0100;  // l  clear
                 8'h75: ascii_data = 4'b0010;  // u  min down
                 8'h64: ascii_data = 4'b0001;  // d  time down
-
             endcase
         end
     end
