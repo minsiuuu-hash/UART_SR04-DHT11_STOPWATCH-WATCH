@@ -120,8 +120,6 @@ module tick_counter_watch #(
         end else counter_reg <= counter_next;
     end
 
-
-
     always @(*) begin
         counter_next = counter_reg;
         o_tick = 0;
