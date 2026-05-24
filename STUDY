@@ -82,7 +82,7 @@ meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠
 			채터링현상(debounce)을 방지하기위해, 입력이 일정 시간 동안 안정적으로 유지됐을 때만 진짜 입력으로 인정
         외부 신호는 바로 FSM에 넣지 않기
 
-  Latch
+Latch
     level-sensitive
     enable=1 동안 입력이 계속 통과
 	gate수가 적고, noise에 약함.
@@ -99,7 +99,7 @@ meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠
 		2)논리/순차 회로 구분
 			확실하게 역할 나누기
 
-  Flip-Flop(두개의 latch로 만듦, 이 두개는 반대의 타이밍을 가져야함.)
+Flip-Flop(두개의 latch로 만듦, 이 두개는 반대의 타이밍을 가져야함.)
     edge-triggered
     posedge/negedge 순간에만 저장
 	negative latch -> positive latch = posedge clk D-ff 
