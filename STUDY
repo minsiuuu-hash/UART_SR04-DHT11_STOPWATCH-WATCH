@@ -1,5 +1,3 @@
-DAY 22
-
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기)
 
@@ -34,6 +32,14 @@ Soc 설계할때는 보통 동기식, FPGA 설계할때는 보통 비동기식.
 순차논리(sequential logic)
   ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
   비동기적 동작, clk 신호에 맞추어 동작
+
+Glitch = 짧은 순간 의도치 않게 튀는 신호
+	조합논리 경로 delay 차이, 비동기 입력일 때 발생
+	Glitch가 발생하면 의도치않게 그 값이 샘플링 되면 문제가됌.
+	해결법
+		출력을 register로 잡음(조합출력을 바로 밖으로 내보내지 않고, clock에 맞춰 한 번 register로 잡기).
+		순차회로 출력은 clock edge에서만 바뀌므로 glitch에 강하다.
+		비동기 입력은 반드시 동기화해야 한다. 버튼 입력은 debounce가 필요하다. clock을 조합논리로 만들면 위험하다.
 
 FSM(Finite State Machine) = 제어하는 시스템
 	두가지 존재 :  Mealy, Moore
