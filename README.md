@@ -64,6 +64,7 @@ We make SYSTEM VERILOG CODE LIKE UVM
    1) RESET
       * result = 12:00:00:00
    2) Stopwatch
+      * msec>sec, sec>min, min>hour
    3) Watch
       * msec>sec, sec>min, min>hour
    4) Change Time
