@@ -153,6 +153,23 @@ fanout이 적절하면 하나의 제어 신호로 여러 블록을 일관되게 
 하지만 fanout이 너무 크면 routing delay와 부하가 증가해 timing이 나빠지고 전력도 증가할 수 있습니다.
 그래서 큰 설계에서는 control signal을 stage별로 나누거나 register duplication을 통해 fanout을 줄입니다.
 
+## FPGA Synthesis Result
+
+RTL 설계 후 Vivado 합성을 통해 FPGA 자원 사용량과 타이밍 결과를 확인하였다.
+
+| 항목 | 의미 |
+|---|---|
+| LUT | 조합논리 사용량 |
+| FF | 레지스터 사용량 |
+| BRAM | 메모리 자원 사용량 |
+| DSP | 곱셈 및 고속 연산 자원 사용량 |
+| WNS | 목표 클럭 기준 최악의 타이밍 여유 |
+| Fmax | 달성 가능한 최대 동작 주파수 |
+| Fanout | 특정 신호가 얼마나 많은 로직을 구동하는지 나타내는 지표 |
+
+Utilization Report를 통해 LUT, FF, BRAM, DSP 사용량을 확인하고, Timing Report를 통해 WNS, Critical Path, Fmax를 분석하였다.  
+이를 바탕으로 설계의 병목 지점을 파악하고, pipeline register 추가, 조합논리 분리, high fanout 신호 개선 등의 최적화 방향을 도출하였다.
+
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
 	송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기식 직렬 통신(1:1 통신)
