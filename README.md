@@ -198,6 +198,7 @@ To verify this project, we made SystemVerilog code like UVM.
 
 In the bottom, it is our presentation.
 
-- [UART_SR04_DHT11_STOPWATCH_WATCH.pdf](UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
-- [stopwatch, watch_정민수.pptx](stopwatch,%20watch_정민수.pptx)
-- [260223 반도체_설계_9조_전정묵_등_4명_team_project.pdf](260223%20반도체_설계_9조_전정묵_등_4명_team_project.pdf)
+- [STOPWATCH,WATCH.pdf](https://github.com/user-attachments/files/28661408/STOPWATCH.WATCH.pdf)
+- [UART_FIFO_SR04_DHT11_STOPWATCH,WATCH.pdf](https://github.com/user-attachments/files/28661409/UART_FIFO_SR04_DHT11_STOPWATCH.WATCH.pdf)
+- [Verification.pdf](https://github.com/user-attachments/files/28661413/Verification.pdf)
+
