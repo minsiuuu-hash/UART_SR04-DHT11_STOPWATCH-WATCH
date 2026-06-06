@@ -123,7 +123,7 @@ The watch structure is similar to the stopwatch.
 
 ### 3. FULL
 
-![project image](img/full.png)
+![project image](img/whole.png)
 
 ---
 
