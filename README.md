@@ -1,108 +1,203 @@
-FPGA : Basys3(7-segment display = common anode)
-Frequency = 100Mhz
+# UART + SR04 + DHT11 + Stopwatch + Watch
 
-Tool : Vivado , VS code
+FPGA : Basys3  
+7-segment display : Common Anode  
+Frequency : 100 MHz  
 
-Design Goal
-1. STOPWATCH Function(sw[1] = 0, stopwatch mode)
-   1) initial value = 00:00:00.00, sw[5:3] = 3'bxxx;
-   2) sw[0] = 0, press right btn(START) = increase stopwatch time(msec)
-   3) sw[1] = 1, press right btn(START) = decrease stopwatch time(msec)
-   4) press left btn or rst btn = clear stopwatch time to initial value
-   5) sw[1] = 1, Hour:Min mode
-   6) sw[1] = 0, Sec:Msec mode
+Tool : Vivado, VS Code
 
-2. WATCH Function(sw[1] = 1, watch mode)
-   1) initial value = 12:00:00.00
-   2) sw[0] = 1, normal watch
-   3) sw[1] = 0, you can change clock time using left, right, up, down btn
-      1. Right btn = Min, Msec UP
-      2. Left btn = Hour, Sec UP
-      3. Up btn = Min, Msec DOWN
-      4. Down btn = Hour, Sec DOWN
+---
 
-3. SR04(sw[5:0] = 6'b001000)
-   1) SPEC
-      1. Distance = 2 ~ 400cm
-      2. Angle = -15º ~ 15º
-      4. Out Signal = HIGH pulse
-   2) sensor can't measure distance exactly, so we measure the average distance value for 2sec.
-   3) Right btn = Start Measuring btn
+## Design Goal
 
-4. DHT11
-   1) SPEC
-      1. Humidiy = 20% ~ 90%
-      2. Temperature = 0ºC ~ 50ºC
-   3) Humidity (sw[5:0] = 6'b110000)
-      1. sensor can't measure humidity exactly, so we measure the average distance value for 2sec.  
-   3) Temperature (sw[5:0] = 6'b010000)
-      1. sensor can't measure temperature exactly, so we measure the average distance value for 2sec.
-   4) Right btn = Start Measuring btn
-     
+### 1. STOPWATCH Function
 
-Block Diagram
+`sw[1] = 0` : Stopwatch Mode
 
-1. STOPWATCH
+| Condition | Description |
+|---|---|
+| Initial Value | `00:00:00.00` |
+| `sw[5:3]` | `3'bxxx` |
+| `sw[0] = 0` + Right Button | Start / Increase stopwatch time |
+| `sw[0] = 1` + Right Button | Start / Decrease stopwatch time |
+| Left Button or Reset Button | Clear stopwatch time to initial value |
+| `sw[1] = 1` | Hour : Min mode |
+| `sw[1] = 0` | Sec : Msec mode |
+
+---
+
+### 2. WATCH Function
+
+`sw[1] = 1` : Watch Mode
+
+| Condition | Description |
+|---|---|
+| Initial Value | `12:00:00.00` |
+| `sw[0] = 1` | Normal watch |
+| `sw[0] = 0` | Change clock time using left, right, up, down button |
+
+#### Button Control
+
+| Button | Function |
+|---|---|
+| Right Button | Min, Msec UP |
+| Left Button | Hour, Sec UP |
+| Up Button | Min, Msec DOWN |
+| Down Button | Hour, Sec DOWN |
+
+---
+
+### 3. SR04
+
+`sw[5:0] = 6'b001000`
+
+#### SPEC
+
+| Item | Value |
+|---|---|
+| Distance | 2 ~ 400 cm |
+| Angle | -15º ~ 15º |
+| Output Signal | HIGH pulse |
+
+The sensor cannot measure distance exactly, so we measure the average distance value for 2 sec.
+
+| Button | Function |
+|---|---|
+| Right Button | Start Measuring Button |
+
+---
+
+### 4. DHT11
+
+#### SPEC
+
+| Item | Value |
+|---|---|
+| Humidity | 20% ~ 90% |
+| Temperature | 0ºC ~ 50ºC |
+
+#### Humidity Mode
+
+`sw[5:0] = 6'b110000`
+
+The sensor cannot measure humidity exactly, so we measure the average humidity value for 2 sec.
+
+#### Temperature Mode
+
+`sw[5:0] = 6'b010000`
+
+The sensor cannot measure temperature exactly, so we measure the average temperature value for 2 sec.
+
+| Button | Function |
+|---|---|
+| Right Button | Start Measuring Button |
+
+---
+
+## Block Diagram
+
+### 1. STOPWATCH
+
 ![project image](img/stopwatch.png)
-tick_gen_100hz = 10msec <br>
-make tick_count to make time <br>
-hour = 0 ~ 23 , min = 0 ~ 59 , sec = 0 ~ 59 , msec = 0 ~ 99 <br>
-hour = 5bit , min = 6bit , sec = 6bit , msec = 7bit <br>
 
-2. WATCH 
-![project image](img/stopwatch.png)
-same like stopwatch
-3. FULL
-![project image](img/whole.png)
+`tick_gen_100hz = 10 msec`
 
-TO VERIFICATION THIS PROJECT
-We make SYSTEM VERILOG CODE LIKE UVM
+The stopwatch uses tick count to make time.
 
-1. STOPWATCH_WATCH B/D <br>
-   ![project image](img/stopwatch_watch_bd.png)<br>
-   SCENARIO<br>
-   1) RESET
-      * result = 12:00:00:00
-   2) Stopwatch
-      * msec>sec, sec>min, min>hour
-   3) Watch
-      * msec>sec, sec>min, min>hour
-   4) Change Time
-   5) Btn
+| Time Unit | Range | Bit Width |
+|---|---:|---:|
+| Hour | 0 ~ 23 | 5 bit |
+| Min | 0 ~ 59 | 6 bit |
+| Sec | 0 ~ 59 | 6 bit |
+| Msec | 0 ~ 99 | 7 bit |
 
-3. FIFO B/D <br>
-   ![project image](img/fifo_bd.png)<br>
-    SCENARIO<br> 
-   1) PUSH MODE<br>
-      * !FULL = wptr ++, empty = 0, if (wptr = rptr) = FULL<br>
-   2) POP MODE<br>
-      * !empty = rptr ++, full = 0, if (rptr= wptr) = EMPTY<br>
-   3) BOTH<br>
-      * FULL = rptr ++, full = 0<br>
-      * empty = wptr ++, empty = 0<br>
-      * extra = wptr ++, rptr ++<br>
-      <br>
-4. UART RX B/D <br>
-   ![project image](img/uart_rx_bd.png)<br>
-    SCENARIO<br> 
-   1) Driver Task(UART_TX)
-      * Timing UART to give 16tick.
-      * Add a mailbox between the generator and the Scoreboard,
-      * rand 8-bit TX value compared to rx_data value in mon2scb_mailbox.
-      <br>
-5. UART FULL B/D <br>
-  ![project image](img/uart_bd.png)<br>
-    SCENARIO<br> 
-   1) Monitor TASK
-      * To receive the value imported from the interface reliably
-      * A total of 1.5 BIT_PERIOD is received so that it can be received from the middle (8 ticks).
-   2) Loop Back UART
-      * Compare the result data with the rand data received through gen2scb_mailbox and mon2scb_mailbox.
+---
 
+### 2. WATCH
 
-in the bottom, it is our presentation.   
-[UART_SR04_DHT11_STOPWATCH_WATCH.pdf](https://github.com/user-attachments/files/25823325/UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
-[stopwatch, watch_정민수.pptx](https://github.com/user-attachments/files/27937591/stopwatch.watch_.pptx)
-[260223 반도체_설계_9조_전정묵_등_4명_team_project.pdf](https://github.com/user-attachments/files/27937644/260223._._9._._._4._team_project.pdf)
+![project image](img/watch.png)
 
+The watch structure is similar to the stopwatch.
 
+---
+
+### 3. FULL
+
+![project image](img/full.png)
+
+---
+
+## Verification
+
+To verify this project, we made SystemVerilog code like UVM.
+
+---
+
+### 1. STOPWATCH_WATCH B/D
+
+![project image](img/stopwatch_watch_bd.png)
+
+#### Scenario
+
+| No. | Scenario | Expected Result |
+|---:|---|---|
+| 1 | Reset | `12:00:00:00` |
+| 2 | Stopwatch | msec > sec, sec > min, min > hour |
+| 3 | Watch | msec > sec, sec > min, min > hour |
+| 4 | Change Time | Check time change operation |
+| 5 | Button | Check button operation |
+
+---
+
+### 2. FIFO B/D
+
+![project image](img/fifo_bd.png)
+
+#### Scenario
+
+| Mode | Scenario |
+|---|---|
+| PUSH MODE | `!FULL` = `wptr++`, `empty = 0`, if `wptr == rptr`, then `FULL` |
+| POP MODE | `!empty` = `rptr++`, `full = 0`, if `rptr == wptr`, then `EMPTY` |
+| BOTH | `FULL` = `rptr++`, `full = 0` |
+| BOTH | `empty` = `wptr++`, `empty = 0` |
+| BOTH | Extra = `wptr++`, `rptr++` |
+
+---
+
+### 3. UART RX B/D
+
+![project image](img/uart_rx_bd.png)
+
+#### Scenario
+
+| Item | Description |
+|---|---|
+| Driver Task | UART_TX |
+| Timing | UART timing to give 16 tick |
+| Mailbox | Add a mailbox between the generator and the scoreboard |
+| Compare | Random 8-bit TX value is compared with `rx_data` value in `mon2scb_mailbox` |
+
+---
+
+### 4. UART FULL B/D
+
+![project image](img/uart_full_bd.png)
+
+#### Scenario
+
+| Item | Description |
+|---|---|
+| Monitor Task | Receive the value imported from the interface reliably |
+| Sampling Timing | A total of 1.5 `BIT_PERIOD` is received so that it can be received from the middle, 8 ticks |
+| Loop Back UART | Compare the result data with the random data received through `gen2scb_mailbox` and `mon2scb_mailbox` |
+
+---
+
+## Presentation
+
+In the bottom, it is our presentation.
+
+- [UART_SR04_DHT11_STOPWATCH_WATCH.pdf](UART_SR04_DHT11_STOPWATCH_WATCH.pdf)
+- [stopwatch, watch_정민수.pptx](stopwatch,%20watch_정민수.pptx)
+- [260223 반도체_설계_9조_전정묵_등_4명_team_project.pdf](260223%20반도체_설계_9조_전정묵_등_4명_team_project.pdf)
