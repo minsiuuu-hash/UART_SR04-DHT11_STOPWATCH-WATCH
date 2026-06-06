@@ -182,7 +182,7 @@ To verify this project, we made SystemVerilog code like UVM.
 
 ### 4. UART FULL B/D
 
-![project image](img/uart_full_bd.png)
+  ![project image](img/uart_bd.png)<br>
 
 #### Scenario
 
