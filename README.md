@@ -72,7 +72,8 @@ In time change mode, the watch count stops and the time can be changed using the
 | Angle | -15º ~ 15º |
 | Output Signal | HIGH pulse |
 
-The sensor cannot measure distance exactly, so we measure the average distance value for 2 sec.
+In SR04 mode, the right button starts measurement.  
+The SR04 controller measures distance 16 times during a 2-second interval and displays the average value.
 
 | Button | Function |
 |---|---|
@@ -93,13 +94,15 @@ The sensor cannot measure distance exactly, so we measure the average distance v
 
 `sw[5:0] = 6'b110000`
 
-The sensor cannot measure humidity exactly, so we measure the average humidity value for 2 sec.
+In DHT11 mode, the right button starts measurement.  
+The DHT11 controller measures humidity twice during a 2-second interval and displays the average value.
 
 #### Temperature Mode
 
 `sw[5:0] = 6'b010000`
 
-The sensor cannot measure temperature exactly, so we measure the average temperature value for 2 sec.
+In DHT11 mode, the right button starts measurement.  
+The DHT11 controller measures temperature twice during a 2-second interval and displays the average value.
 
 | Button | Function |
 |---|---|
