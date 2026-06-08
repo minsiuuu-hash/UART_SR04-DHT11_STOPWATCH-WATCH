@@ -12,42 +12,53 @@ Tool : Vivado, VS Code
 
 ### 1. STOPWATCH Function
 
+Time mode is selected when `sw[4] = 0` and `sw[3] = 0`.
+
 `sw[1] = 0` : Stopwatch Mode
 
 | Condition | Description |
 |---|---|
 | Initial Value | `00:00:00.00` |
-| `sw[5:3]` | `3'bxxx` |
-| `sw[0] = 0` + Right Button | Start / Increase stopwatch time |
-| `sw[0] = 1` + Right Button | Start / Decrease stopwatch time |
+| `sw[0] = 0` | Up-count mode |
+| `sw[0] = 1` | Down-count mode |
+| Right Button | Start / Stop stopwatch |
 | Left Button or Reset Button | Clear stopwatch time to initial value |
-| `sw[2] = 1` | Hour : Min mode |
-| `sw[2] = 0` | Sec : Msec mode |
+| `sw[2] = 1` | Hour : Min display mode |
+| `sw[2] = 0` | Sec : Msec display mode |
 
----
+In stopwatch mode, the right button toggles the stopwatch between run and stop.  
+The counting direction is selected by `sw[0]`.
+
+| `sw[0]` | Stopwatch Operation |
+|---|---|
+| `0` | Count up |
+| `1` | Count down |
 
 ### 2. WATCH Function
+
+Time mode is selected when `sw[4] = 0` and `sw[3] = 0`.
 
 `sw[1] = 1` : Watch Mode
 
 | Condition | Description |
 |---|---|
 | Initial Value | `12:00:00.00` |
-| `sw[0] = 1` | Normal watch |
-| `sw[0] = 0` | Change clock time using left, right, up, down button |
-| `sw[2] = 1` | Hour : Min mode |
-| `sw[2] = 0` | Sec : Msec mode |
+| `sw[0] = 0` | Normal watch mode |
+| `sw[0] = 1` | Time change mode |
+| `sw[2] = 1` | Hour : Min display mode |
+| `sw[2] = 0` | Sec : Msec display mode |
 
-#### Button Control
+In normal watch mode, the watch counts time automatically.  
+In time change mode, the watch count stops and the time can be changed using the buttons.
 
-| Button | Function |
-|---|---|
-| Right Button | Min, Msec UP |
-| Left Button | Hour, Sec UP |
-| Up Button | Min, Msec DOWN |
-| Down Button | Hour, Sec DOWN |
+#### Button Control in Time Change Mode
 
----
+| Button | `sw[2] = 1` Hour : Min Mode | `sw[2] = 0` Sec : Msec Mode |
+|---|---|---|
+| Left Button | Hour UP | Sec UP |
+| Right Button | Min UP | Msec UP |
+| Up Button | Hour DOWN | Sec DOWN |
+| Down Button | Min DOWN | Msec DOWN |
 
 ### 3. SR04
 
