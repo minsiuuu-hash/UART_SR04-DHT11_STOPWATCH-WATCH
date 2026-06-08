@@ -21,8 +21,8 @@ Tool : Vivado, VS Code
 | `sw[0] = 0` + Right Button | Start / Increase stopwatch time |
 | `sw[0] = 1` + Right Button | Start / Decrease stopwatch time |
 | Left Button or Reset Button | Clear stopwatch time to initial value |
-| `sw[1] = 1` | Hour : Min mode |
-| `sw[1] = 0` | Sec : Msec mode |
+| `sw[2] = 1` | Hour : Min mode |
+| `sw[2] = 0` | Sec : Msec mode |
 
 ---
 
@@ -35,6 +35,8 @@ Tool : Vivado, VS Code
 | Initial Value | `12:00:00.00` |
 | `sw[0] = 1` | Normal watch |
 | `sw[0] = 0` | Change clock time using left, right, up, down button |
+| `sw[2] = 1` | Hour : Min mode |
+| `sw[2] = 0` | Sec : Msec mode |
 
 #### Button Control
 
