@@ -182,7 +182,7 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
 	Parity(optinal) : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
 	Baudrate : 1초에 몇 비트를 전송할 것인가를 나타내는 값, bps(bit per sec)
 			Baud Rate 오차 허용 범위: 보통 2~3%
-            ex) 9600bps 동작 : (sys_clock/baudrate) = (100Mhz/9600bps) = 10416.66
+            ex) 9600bps 동작 : 1/9600, FPGA clock 기준으로 몇 클럭인지 계산 : (sys_clock/baudrate) = (100Mhz/9600bps) = 10416.66
 			1비트가 10416.66 clk 동안 유지됌. 따라서 10417clk마다 틱을 발생시켜 값을 읽어오면 안정적으로 읽어올 수 있음. 		
 	
 	oversampling
