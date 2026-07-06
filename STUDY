@@ -175,8 +175,8 @@ Utilization Report를 통해 LUT, FF, BRAM, DSP 사용량을 확인하고, Timin
 UART(Unviersal Asynchronous Receiver/Transmitter)
 	송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기식 직렬 통신(1:1 통신)
 	RX,TX 2개의 선만 필요. Full-Duplex 구조. LSB First(data[0]부터 값을 송신/수신)
+	송/수신측에서 같은 baudrate를 사용해야함.
 	START Bit를 기준으로 동기화함.
-	송/수신측에서 같은 baudrate를 사용해야.
 
 	GND : 전압의 기준점
 	Parity(optinal) : Data의 홀(odd)/짝(even) 체크(잘 사용안함, DATA,STOP 사이의 STATE)
