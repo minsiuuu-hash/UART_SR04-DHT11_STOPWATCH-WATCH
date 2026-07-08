@@ -1,8 +1,8 @@
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기)
 
-~, | = 비트연산자
-!, || = 논리연산자
+~, | = 비트연산자 : 각 자리 비트끼리 연산
+!, || = 논리연산자 : 값을 전체적으로 보고 참이냐 거짓이냐만 판단
 
 DataType
 	register(reg type) = 저장할 수 있는 변수, 값을 집어넣을때
@@ -52,7 +52,7 @@ FSM(Finite State Machine) = 제어하는 시스템
 	상태 저장, 다음 상태 결정, 출력 결정까지 한 always @(posedge clk) 안에 넣는 방식(한 개의 순차회로)
 	[순차회로] state 저장 [조합회로1] next_state 계산 [조합회로2] output 계산 (한 개의 순차회로 + 두 개의 조합회로)
 
-assign 에는 ?로 조건문 가능(우선순위 o)
+assign 에는 ?(삼항연산자, 조건연산자)로 조건문 가능(우선순위 o) 
 always 에는 if(우선순위 o), case문(우선순위 x)로 조건 가능
 begin end는 한줄씩 순차적으로 시작하는데 <=을 만나면 그걸 무시하고 동시에 실행함.
 genvar for문은 하드웨어를 여러 개 복제해서 만드는 문법
@@ -170,7 +170,6 @@ RTL 설계 후 Vivado 합성을 통해 FPGA 자원 사용량과 타이밍 결과
 
 Utilization Report를 통해 LUT, FF, BRAM, DSP 사용량을 확인하고, Timing Report를 통해 WNS, Critical Path, Fmax를 분석하였다.  
 이를 바탕으로 설계의 병목 지점을 파악하고, pipeline register 추가, 조합논리 분리, high fanout 신호 개선 등의 최적화 방향을 도출하였다.
-
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
 	송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기식 직렬 통신(1:1 통신)
