@@ -26,7 +26,7 @@ DataType
 Soc 설계할때는 보통 동기식, FPGA 설계할때는 보통 비동기식.
 
 조합논리(combinational logic)
-  ex) mux ,alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
+  ex) mux, alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
   비동기적 동작, 입력 변하면 출력이 변경됌.
 
 순차논리(sequential logic)
