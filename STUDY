@@ -60,7 +60,7 @@ always 에는 if(우선순위 o), case문(우선순위 x)로 조건 가능
 
 begin end는 한줄씩 순차적으로 시작하는데 <=을 만나면 그걸 무시하고 동시에 실행함.
 
-genvar는 generate-for문에서 사용하며, elaboration 단계에서 반복되는 모듈이나 회로를 여러 개 생성하기 위한 변수이다.
+genvar는 generate-for문에서 사용하며, elaboration 단계에서 즉, 합성전에 회로 자체를 여러 개 복제하는것. 따라서 인스턴스를 복잡하게 안할 수 있음.
 
 reg [$clog2(100_000)-1:0] counter_r; 비트수 계산쉽게 가능.
 
