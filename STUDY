@@ -5,7 +5,7 @@ f(주파수) = 1/T(주기)
 !, || = 논리연산자 : 값을 전체적으로 보고 참이냐 거짓이냐만 판단
 
 DataType
-	register(reg type) = 저장할 수 있는 변수, 값을 집어넣을때
+	reg type = 저장할 수 있는 변수, 값을 집어넣을때 (always 블록 안에서 값을 대입하기 위해 사용하는 Verilog 변수 타입)
 	wire type = 출력, 연결용도의 변수, 저장불가
 
 4 State Logic
