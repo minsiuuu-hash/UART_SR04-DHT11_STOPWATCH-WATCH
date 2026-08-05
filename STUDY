@@ -20,6 +20,7 @@ DataType
 동기식 = 같은 clock 기준으로 동작하는 방식
   장점 : 타이밍 맞추기 쉬움, 분석 쉬움, 큰 시스템 설계에 유리함
   단점 : 클럭 전력 소모가 큼, 가장 느린 경로에 전체 속도가 제한됨, 클럭 분배가 복잡함(CTS, STA, Timing Closure), Clock skew가 발생함
+			SDC로 Timing Constraint 설정 -> STA가 타이밍 만족 여부 분석 ->  CTS를 통해 실제 Clock Tree 구성 ->  다시 STA로 Setup/Hold 확인
 비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
   장점 : 반응이 빠를 수 있음, 클럭이 꼭 필요하지 않음
   단점 : 타이밍 예측이 어려움, metastability, glitch, race 등에 취약함, 큰 설계에서는 다루기 어려움
