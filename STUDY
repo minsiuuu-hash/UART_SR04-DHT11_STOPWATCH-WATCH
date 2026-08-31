@@ -219,16 +219,29 @@ always @(posedge clk)
 ※ Race Condition = 실행 순서에 따른 문제
 ※ Multiple Driver = 하나의 신호를 여러 곳에서 구동하는 문제
 
-Hazard는 pipeline 구조에서 다음 명령어가 정상적으로 실행되지 못하게 만드는 위험 상황.
+병목현상(Bottleneck) = 시스템 전체 성능을 제한하는 가장 느린 부분(디지털 회로의 Timing에서는 Critical Path가 대표적인 병목이 될 수 있음)
+Critical Path = FF → 조합논리 → FF 사이에서 Delay가 가장 긴 경로.
+Critical Path가 길어지면 → 최소 Clock Period 증가 → 최대 동작 주파수(Fmax) 감소
 
-병목현상 = 전체 성능을 제한하는 가장 느린 경로가 시스템의 최대 동작 속도를 결정하는 현상. 
-디지털 회로에서는 보통 critical path가 병목이 되며, 합성 후 timing report에서 WNS와 critical path를 확인해 병목 지점을 찾습니다. 
-개선 방법으로는 pipeline register 삽입, 조합논리 분리, fanout 감소, control signal register화 등이 있습니다.
+[확인 방법]
+* Timing Report의 WNS
+* Critical Path 확인
 
-Fanout = 하나의 신호가 여러 입력을 구동하는 개수.
-fanout이 적절하면 하나의 제어 신호로 여러 블록을 일관되게 제어할 수 있어 구조가 단순해집니다.
-하지만 fanout이 너무 크면 routing delay와 부하가 증가해 timing이 나빠지고 전력도 증가할 수 있습니다.
-그래서 큰 설계에서는 control signal을 stage별로 나누거나 register duplication을 통해 fanout을 줄입니다.
+[개선 방법]
+* Pipeline Register 삽입
+* 긴 조합논리 분리
+* Logic 단순화
+* Fanout 감소
+
+Fanout = 하나의 출력 신호가 구동하는 입력의 개수.
+Fanout이 너무 크면 → 부하(Capacitance) 증가 → Routing Delay 증가 → Timing 악화 → Power 증가 가능
+
+[해결 방법]
+* Buffer 삽입
+* Register / Logic Duplication
+* High Fanout Signal 분산
+※ 일반적인 Buffer 삽입이나 Fanout 최적화는합성/P&R Tool이 자동으로 처리하는 경우가 많음.
+※ Clock Fanout 및 Clock 분배는 주로 CTS에서 처리.
 
 ## FPGA Synthesis Result
 
