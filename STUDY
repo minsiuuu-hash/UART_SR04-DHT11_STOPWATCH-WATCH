@@ -66,10 +66,14 @@ FSM(Finite State Machine) = 제어하는 시스템
 	두가지 존재 :  Mealy, Moore
 	Mealy
 		현재 상태와 현재 입력에 의해서 출력 결정.
-		상태 수가 적어 latency가 짧지만, glitch에 약함.
+		입력 변화가 현재 Cycle의 출력에 바로 반영될 수 있어 Response Latency가 짧음.
+		같은 기능을 Moore보다 적은 State로 구현할 수 있는 경우가 있음.
+		입력이 출력에 직접 영향을 주므로 Glitch에 비교적 취약함.
 	Moore
 		현재 상태만 보고 출력 결정.
-		상태 수가 많아 latency가 길지만, glitch에 강함.
+		보통 State가 변경된 후 출력이 변경되므로 Mealy보다 한 Cycle 늦게 반응할 수 있음.
+		경우에 따라 State 수가 더 많아질 수 있음.
+		출력이 State에만 의존하므로 비교적 안정적
 	상태 저장, 다음 상태 결정, 출력 결정까지 한 always @(posedge clk) 안에 넣는 방식(한 개의 순차회로)
 	[순차회로] state 저장 [조합회로1] next_state 계산 [조합회로2] output 계산 (한 개의 순차회로 + 두 개의 조합회로) -> 이게 가독성이 좋고, 수정도 편해서 주로 사용.
 
