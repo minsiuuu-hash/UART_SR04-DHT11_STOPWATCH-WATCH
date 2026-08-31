@@ -118,16 +118,13 @@ reg [$clog2(100_000)-1:0] counter_r;
 
 Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
 발생 원인
-- FF는 Clock Edge에서 입력을 Sampling하는데,
-  입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
+- FF는 Clock Edge에서 입력을 Sampling하는데, 입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
 
 주요 발생 상황
 1) 외부 비동기 입력
    ex) 버튼, UART RX, 외부 센서 신호
 2) CDC (Clock Domain Crossing)
-   ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling
-   → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아
-     Metastability가 발생할 수 있음.
+   ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아 Metastability가 발생할 수 있음.
 
 문제점
 - 출력이 0/1로 안정되는 시간이 늦어짐
@@ -137,25 +134,19 @@ Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 
 [해결 방법]
 1. 2-FF Synchronizer (주로 1-bit 신호)
 - Destination Clock 기준으로 FF 2개를 연속 연결.
-- 첫 번째 FF에서 Metastability가 발생할 수 있지만,
-  두 번째 FF가 Sampling하기 전까지 안정화 시간을 확보.
-- Metastability 자체를 완전히 없애는 것이 아니라
-  뒤쪽 Logic으로 전파될 확률을 매우 낮추는 방법.
-※ FF를 더 추가하면 안정화 시간은 증가하지만
-   그만큼 Latency도 증가함.
+- 첫 번째 FF에서 Metastability가 발생할 수 있지만, 두 번째 FF가 Sampling하기 전까지 안정화 시간을 확보.
+- Metastability 자체를 완전히 없애는 것이 아니라 뒤쪽 Logic으로 전파될 확률을 매우 낮추는 방법.
+※ FF를 더 추가하면 안정화 시간은 증가하지만 그만큼 Latency도 증가함.
 2. Multi-bit CDC
-- 여러 Bit를 각각 2-FF Synchronizer로 처리하면
-  각 Bit가 서로 다른 Cycle에 안정될 수 있으므로 위험.
-- 데이터 특성에 따라
-  Handshake / Gray Code / Async FIFO 등을 사용.
+- 여러 Bit를 각각 2-FF Synchronizer로 처리하면 각 Bit가 서로 다른 Cycle에 안정될 수 있으므로 위험.
+- 데이터 특성에 따라 Handshake / Gray Code / Async FIFO 등을 사용.
 ※ Gray Code : Counter/Pointer 전달 등에 사용
 ※ Async FIFO : 여러 Bit 데이터 전달에 대표적으로 사용
 3. 외부 비동기 입력
 - 외부 신호를 FSM 등에 바로 넣지 않고 Synchronizer를 거쳐 사용.
 - 버튼은 Debounce + Synchronizer 사용.
 Debounce
-= 버튼의 기계적 채터링을 제거하여
-  일정 시간 안정된 입력만 실제 입력으로 인정.
+= 버튼의 기계적 채터링을 제거하여 일정 시간 안정된 입력만 실제 입력으로 인정.
 
 Latch
     level-sensitive
