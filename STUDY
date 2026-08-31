@@ -196,6 +196,15 @@ Tcq(max) + Tcomb(max) + Tsetup ≤ Tclock
 Tcq(min) + Tcomb(min) ≥ Thold
 ※ 실제 STA에서는 Clock Skew/Jitter 등도 함께 고려함.
 
+Synchronous Reset = Clock Edge에서만 Reset이 적용됨.
+장점 : Clock 기준으로 동작해서 Timing 분석이 쉬움.
+단점 : Clock이 동작해야 Reset 가능.
+
+Asynchronous Reset = Clock과 관계없이 Reset이 들어오면 즉시 초기화됨.
+장점 = Clock 없이도 즉시 Reset 가능.
+단점 = Reset 해제(Deassert) 시점이 Clock Edge와 가까우면 Metastability 문제가 발생할 수 있음.
+※ Async Reset은 Assert는 비동기로 하고,Deassert는 Clock에 맞춰 동기화하는 방식을 많이 사용
+
 Race Condition = 둘 이상의 동작이 같은 시점에 실행될 때, 실행 순서에 따라 결과가 달라질 수 있는 현상.
 [주요 발생 상황]
 1. 순차논리에서 Blocking(=)을 부적절하게 사용
