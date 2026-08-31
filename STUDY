@@ -26,40 +26,6 @@ DataType
 	z = high impedence = 전선이 끊어져있는 상태
 		ex) assign bus = enable ? data : 1'bz; (inout port)
 
-동기식 = 같은 clock 기준으로 동작하는 방식
-  장점 : 타이밍 예측 및 분석이 쉬움, 설계/검증이 비교적 쉬움, 큰 시스템 설계에 유리함
-  단점 : 클럭 전력 소모가 큼, Critical Path에 의해 최대 동작 주파수가 제한됨, 클럭 분배가 복잡함(CTS, STA, Timing Closure), Clock skew가 발생함
-			SDC로 Timing Constraint 설정 -> STA가 타이밍 만족 여부 분석 ->  CTS를 통해 실제 Clock Tree 구성 ->  다시 STA로 Setup/Hold 확인 -> Timing Closure
-SDC (Synopsys Design Constraints) = "어느 정도 속도로 동작해야 하는지" 타이밍 기준을 설정 ex) Clock 주기, Input/Output Delay 등
-STA (Static Timing Analysis) = SDC에서 정한 기준을 실제 회로가 만족하는지 검사
-→ Setup/Hold Violation 확인
-→ Critical Path 확인
-CTS (Clock Tree Synthesis)= Clock이 각 Flip-Flop까지 적절한 타이밍에 도착하도록 Buffer 등을 이용해 실제 Clock Tree를 구성
-→ Clock Skew 등을 줄이는 과정
-Timing Closure = STA에서 발견된 타이밍 문제를 계속 수정하여 최종적으로 모든 Timing Constraint를 만족시키는 것
-
-SDC : "100MHz로 동작시켜야 해" → 기준 설정
- ↓
-STA : "현재 회로가 100MHz에서 가능한가?" → 검사
- ↓
-CTS : "Clock을 각 FF에 잘 전달하자" → Clock Tree 구성
- ↓
-STA : 실제 Clock Delay를 포함해서 다시 검사
- ↓
-Violation 발생 시 Logic / Placement / Buffer / Pipeline 등 수정
- ↓
-STA 재검사
- ↓
-모든 Setup/Hold 만족
- ↓
-Timing Closure 완료
-
-SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
-
-비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
-  장점 : 반응이 빠를 수 있음, 클럭이 꼭 필요하지 않음
-  단점 : 타이밍 예측/분석이 어려움, Glitch, Race Condition 등에 취약함, 동기식 회로와 연결될 때 Metastability 문제가 발생할 수 있음, 큰 설계에서는 다루기 어려움
-
 조합논리(combinational logic)
   ex) mux, alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
   비동기적 동작, 입력 변하면 출력이 변경됌.
@@ -67,26 +33,6 @@ SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
 순차논리(sequential logic)
   ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
   동기적 동작, clk 신호에 맞추어 동작
-
-Glitch = 짧은 순간 의도치 않게 튀는 신호(조합논리의 경로별 Delay 차이 때문에 순간적으로 잘못된 출력이 발생하는 현상)
-	조합논리 경로 delay 차이, 비동기 입력일 때 발생
-	Glitch가 발생한 순간 값이 FF나 다른 회로에 샘플링되면 잘못된 동작이 발생할 수 있음.
-	순차논리회로여도 발생할 수 있음.
-	해결법
-		출력을 register로 잡음(조합출력을 바로 밖으로 내보내지 않고, clock에 맞춰 한 번 register로 잡기).
-		순차회로 출력은 clock edge에서만 바뀌므로 glitch에 강하다.
-		비동기 입력은 반드시 동기화해야 한다. 버튼 입력은 debounce가 필요하다. clock을 조합논리로 만들면 위험하다.
-
-FSM(Finite State Machine) = 제어하는 시스템
-	두가지 존재 :  Mealy, Moore
-	Mealy
-		현재 상태와 현재 입력에 의해서 출력 결정.
-		상태 수가 적어 latency가 짧지만, glitch에 약함.
-	Moore
-		현재 상태만 보고 출력 결정.
-		상태 수가 많아 latency가 길지만, glitch에 강함.
-	상태 저장, 다음 상태 결정, 출력 결정까지 한 always @(posedge clk) 안에 넣는 방식(한 개의 순차회로)
-	[순차회로] state 저장 [조합회로1] next_state 계산 [조합회로2] output 계산 (한 개의 순차회로 + 두 개의 조합회로) -> 이게 가독성이 좋고, 수정도 편해서 주로 사용.
 
 [조건문 / MUX 표현]
 assign
@@ -116,45 +62,16 @@ ex)
 reg [$clog2(100_000)-1:0] counter_r;
 → 0 ~ 99,999를 저장하기 위한 17bit Counter
 
-Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
-[발생 원인]
-- FF는 Clock Edge에서 입력을 Sampling하는데, 입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
-
-[주요 발생 상황]
-1) 외부 비동기 입력
-   ex) 버튼, UART RX, 외부 센서 신호
-2) CDC (Clock Domain Crossing)
-   ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아 Metastability가 발생할 수 있음.
-
-[문제점]
-- 출력이 0/1로 안정되는 시간이 늦어짐
-- 뒤쪽 Logic이 잘못된 값을 Sampling할 수 있음
-- 시스템 오동작 가능
-
-[해결 방법]
-1. 2-FF Synchronizer (주로 1-bit 신호)
-- Destination Clock 기준으로 FF 2개를 연속 연결.
-- 첫 번째 FF에서 Metastability가 발생할 수 있지만, 두 번째 FF가 Sampling하기 전까지 안정화 시간을 확보.
-- Metastability 자체를 완전히 없애는 것이 아니라 뒤쪽 Logic으로 전파될 확률을 매우 낮추는 방법.
-※ FF를 더 추가하면 안정화 시간은 증가하지만 그만큼 Latency도 증가함.
-2. Multi-bit CDC
-- 여러 Bit를 각각 2-FF Synchronizer로 처리하면 각 Bit가 서로 다른 Cycle에 안정될 수 있으므로 위험.
-- 데이터 특성에 따라 Handshake / Gray Code / Async FIFO 등을 사용.
-※ Gray Code : 연속된 값이 변할 때 여러 bit 중 1bit만 바뀌도록 만든 코드.
-	일반 Binary Counter는 0111 → 1000 처럼 여러 bit가 동시에 바뀔 수 있음.
-	CDC 상황에서는 각 bit가 다른 시점에 전달될 수 있어서 중간에 잘못된 값으로 보일 가능성이 있음.
-	Gray Code는 0100 → 1100처럼 한 번에 1bit만 바뀌므로 CDC에서 값이 깨질 가능성을 줄일 수 있음.
-	주로 Counter 값 전달, Async FIFO의 Read/Write Pointer 전달에 사용.
-※ Async FIFO : 서로 다른 Clock Domain 사이에서 여러 bit 데이터를 안전하게 전달하기 위한 FIFO.
-	ex) Write 측 : clk_a Read 측  : clk_b
-	clk_a에서 데이터를 FIFO에 저장하고, clk_b에서 자기 Clock에 맞춰 데이터를 읽음.
-	데이터 자체를 bit별로 2-FF Synchronizer에 넣는 것이 아니라, FIFO Memory에 저장한 뒤 Read/Write Pointer를 CDC 처리해서 데이터 전달을 관리함.
-	주로 여러 bit 데이터, 데이터가 연속적으로 들어오는 경우, 두 Clock의 속도가 다른 경우 사용함.
-	※ Pointer는 보통 Gray Code로 변환한 뒤 반대 Clock Domain으로 Synchronizing함.
-3. 외부 비동기 입력
-- 외부 신호를 FSM 등에 바로 넣지 않고 Synchronizer를 거쳐 사용.
-- 버튼은 Debounce + Synchronizer 사용.
-Debounce = 버튼의 기계적 채터링을 제거하여 일정 시간 안정된 입력만 실제 입력으로 인정.
+FSM(Finite State Machine) = 제어하는 시스템
+	두가지 존재 :  Mealy, Moore
+	Mealy
+		현재 상태와 현재 입력에 의해서 출력 결정.
+		상태 수가 적어 latency가 짧지만, glitch에 약함.
+	Moore
+		현재 상태만 보고 출력 결정.
+		상태 수가 많아 latency가 길지만, glitch에 강함.
+	상태 저장, 다음 상태 결정, 출력 결정까지 한 always @(posedge clk) 안에 넣는 방식(한 개의 순차회로)
+	[순차회로] state 저장 [조합회로1] next_state 계산 [조합회로2] output 계산 (한 개의 순차회로 + 두 개의 조합회로) -> 이게 가독성이 좋고, 수정도 편해서 주로 사용.
 
 Latch(Level-sensitive 저장소자) = Enable이 활성화되어 있는 동안 입력 변화가 출력에 계속 반영되고, Enable이 비활성화되면 마지막 값을 유지함.
 [발생 원인(RTL)]
@@ -196,6 +113,10 @@ Tcq(max) + Tcomb(max) + Tsetup ≤ Tclock
 Tcq(min) + Tcomb(min) ≥ Thold
 ※ 실제 STA에서는 Clock Skew/Jitter 등도 함께 고려함.
 
+
+여기에 Slack / Setup Violation / Hold Violation 추가
+
+
 Synchronous Reset = Clock Edge에서만 Reset이 적용됨.
 장점 : Clock 기준으로 동작해서 Timing 분석이 쉬움.
 단점 : Clock이 동작해야 Reset 가능.
@@ -204,6 +125,113 @@ Asynchronous Reset = Clock과 관계없이 Reset이 들어오면 즉시 초기�
 장점 = Clock 없이도 즉시 Reset 가능.
 단점 = Reset 해제(Deassert) 시점이 Clock Edge와 가까우면 Metastability 문제가 발생할 수 있음.
 ※ Async Reset은 Assert는 비동기로 하고,Deassert는 Clock에 맞춰 동기화하는 방식을 많이 사용
+
+동기식 = 같은 clock 기준으로 동작하는 방식
+  장점 : 타이밍 예측 및 분석이 쉬움, 설계/검증이 비교적 쉬움, 큰 시스템 설계에 유리함
+  단점 : 클럭 전력 소모가 큼, Critical Path에 의해 최대 동작 주파수가 제한됨, 클럭 분배가 복잡함(CTS, STA, Timing Closure), Clock skew가 발생함
+			SDC로 Timing Constraint 설정 -> STA가 타이밍 만족 여부 분석 ->  CTS를 통해 실제 Clock Tree 구성 ->  다시 STA로 Setup/Hold 확인 -> Timing Closure
+SDC (Synopsys Design Constraints) = "어느 정도 속도로 동작해야 하는지" 타이밍 기준을 설정 ex) Clock 주기, Input/Output Delay 등
+STA (Static Timing Analysis) = SDC에서 정한 기준을 실제 회로가 만족하는지 검사
+→ Setup/Hold Violation 확인
+→ Critical Path 확인
+CTS (Clock Tree Synthesis)= Clock이 각 Flip-Flop까지 적절한 타이밍에 도착하도록 Buffer 등을 이용해 실제 Clock Tree를 구성
+→ Clock Skew 등을 줄이는 과정
+Timing Closure = STA에서 발견된 타이밍 문제를 계속 수정하여 최종적으로 모든 Timing Constraint를 만족시키는 것
+
+SDC : "100MHz로 동작시켜야 해" → 기준 설정
+ ↓
+STA : "현재 회로가 100MHz에서 가능한가?" → 검사
+ ↓
+CTS : "Clock을 각 FF에 잘 전달하자" → Clock Tree 구성
+ ↓
+STA : 실제 Clock Delay를 포함해서 다시 검사
+ ↓
+Violation 발생 시 Logic / Placement / Buffer / Pipeline 등 수정
+ ↓
+STA 재검사
+ ↓
+모든 Setup/Hold 만족
+ ↓
+Timing Closure 완료
+
+SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
+
+비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
+  장점 : 반응이 빠를 수 있음, 클럭이 꼭 필요하지 않음
+  단점 : 타이밍 예측/분석이 어려움, Glitch, Race Condition 등에 취약함, 동기식 회로와 연결될 때 Metastability 문제가 발생할 수 있음, 큰 설계에서는 다루기 어려움
+
+병목현상(Bottleneck) = 시스템 전체 성능을 제한하는 가장 느린 부분(디지털 회로의 Timing에서는 Critical Path가 대표적인 병목이 될 수 있음)
+Critical Path = FF → 조합논리 → FF 사이에서 Delay가 가장 긴 경로.
+Critical Path가 길어지면 → 최소 Clock Period 증가 → 최대 동작 주파수(Fmax) 감소
+
+[확인 방법]
+* Timing Report의 WNS
+* Critical Path 확인
+
+[개선 방법]
+* Pipeline Register 삽입
+* 긴 조합논리 분리
+* Logic 단순화
+* Fanout 감소
+
+Fanout = 하나의 출력 신호가 구동하는 입력의 개수.
+Fanout이 너무 크면 → 부하(Capacitance) 증가 → Routing Delay 증가 → Timing 악화 → Power 증가 가능
+
+[해결 방법]
+* Buffer 삽입
+* Register / Logic Duplication
+* High Fanout Signal 분산
+※ 일반적인 Buffer 삽입이나 Fanout 최적화는합성/P&R Tool이 자동으로 처리하는 경우가 많음.
+※ Clock Fanout 및 Clock 분배는 주로 CTS에서 처리.
+
+Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
+[발생 원인]
+- FF는 Clock Edge에서 입력을 Sampling하는데, 입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
+
+[주요 발생 상황]
+1) 외부 비동기 입력
+   ex) 버튼, UART RX, 외부 센서 신호
+2) CDC (Clock Domain Crossing)
+   ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아 Metastability가 발생할 수 있음.
+
+[문제점]
+- 출력이 0/1로 안정되는 시간이 늦어짐
+- 뒤쪽 Logic이 잘못된 값을 Sampling할 수 있음
+- 시스템 오동작 가능
+
+[해결 방법]
+1. 2-FF Synchronizer (주로 1-bit 신호)
+- Destination Clock 기준으로 FF 2개를 연속 연결.
+- 첫 번째 FF에서 Metastability가 발생할 수 있지만, 두 번째 FF가 Sampling하기 전까지 안정화 시간을 확보.
+- Metastability 자체를 완전히 없애는 것이 아니라 뒤쪽 Logic으로 전파될 확률을 매우 낮추는 방법.
+※ FF를 더 추가하면 안정화 시간은 증가하지만 그만큼 Latency도 증가함.
+2. Multi-bit CDC
+- 여러 Bit를 각각 2-FF Synchronizer로 처리하면 각 Bit가 서로 다른 Cycle에 안정될 수 있으므로 위험.
+- 데이터 특성에 따라 Handshake / Gray Code / Async FIFO 등을 사용.
+※ Gray Code : 연속된 값이 변할 때 여러 bit 중 1bit만 바뀌도록 만든 코드.
+	일반 Binary Counter는 0111 → 1000 처럼 여러 bit가 동시에 바뀔 수 있음.
+	CDC 상황에서는 각 bit가 다른 시점에 전달될 수 있어서 중간에 잘못된 값으로 보일 가능성이 있음.
+	Gray Code는 0100 → 1100처럼 한 번에 1bit만 바뀌므로 CDC에서 값이 깨질 가능성을 줄일 수 있음.
+	주로 Counter 값 전달, Async FIFO의 Read/Write Pointer 전달에 사용.
+※ Async FIFO : 서로 다른 Clock Domain 사이에서 여러 bit 데이터를 안전하게 전달하기 위한 FIFO.
+	ex) Write 측 : clk_a Read 측  : clk_b
+	clk_a에서 데이터를 FIFO에 저장하고, clk_b에서 자기 Clock에 맞춰 데이터를 읽음.
+	데이터 자체를 bit별로 2-FF Synchronizer에 넣는 것이 아니라, FIFO Memory에 저장한 뒤 Read/Write Pointer를 CDC 처리해서 데이터 전달을 관리함.
+	주로 여러 bit 데이터, 데이터가 연속적으로 들어오는 경우, 두 Clock의 속도가 다른 경우 사용함.
+	※ Pointer는 보통 Gray Code로 변환한 뒤 반대 Clock Domain으로 Synchronizing함.
+3. 외부 비동기 입력
+- 외부 신호를 FSM 등에 바로 넣지 않고 Synchronizer를 거쳐 사용.
+- 버튼은 Debounce + Synchronizer 사용.
+Debounce = 버튼의 기계적 채터링을 제거하여 일정 시간 안정된 입력만 실제 입력으로 인정.
+
+Glitch = 짧은 순간 의도치 않게 튀는 신호(조합논리의 경로별 Delay 차이 때문에 순간적으로 잘못된 출력이 발생하는 현상)
+	조합논리 경로 delay 차이, 비동기 입력일 때 발생
+	Glitch가 발생한 순간 값이 FF나 다른 회로에 샘플링되면 잘못된 동작이 발생할 수 있음.
+	순차논리회로여도 발생할 수 있음.
+	해결법
+		출력을 register로 잡음(조합출력을 바로 밖으로 내보내지 않고, clock에 맞춰 한 번 register로 잡기).
+		순차회로 출력은 clock edge에서만 바뀌므로 glitch에 강하다.
+		비동기 입력은 반드시 동기화해야 한다. 버튼 입력은 debounce가 필요하다. clock을 조합논리로 만들면 위험하다.
 
 Race Condition = 둘 이상의 동작이 같은 시점에 실행될 때, 실행 순서에 따라 결과가 달라질 수 있는 현상.
 [주요 발생 상황]
@@ -237,30 +265,6 @@ always @(posedge clk)
 ※ Race Condition = 실행 순서에 따른 문제
 ※ Multiple Driver = 하나의 신호를 여러 곳에서 구동하는 문제
 
-병목현상(Bottleneck) = 시스템 전체 성능을 제한하는 가장 느린 부분(디지털 회로의 Timing에서는 Critical Path가 대표적인 병목이 될 수 있음)
-Critical Path = FF → 조합논리 → FF 사이에서 Delay가 가장 긴 경로.
-Critical Path가 길어지면 → 최소 Clock Period 증가 → 최대 동작 주파수(Fmax) 감소
-
-[확인 방법]
-* Timing Report의 WNS
-* Critical Path 확인
-
-[개선 방법]
-* Pipeline Register 삽입
-* 긴 조합논리 분리
-* Logic 단순화
-* Fanout 감소
-
-Fanout = 하나의 출력 신호가 구동하는 입력의 개수.
-Fanout이 너무 크면 → 부하(Capacitance) 증가 → Routing Delay 증가 → Timing 악화 → Power 증가 가능
-
-[해결 방법]
-* Buffer 삽입
-* Register / Logic Duplication
-* High Fanout Signal 분산
-※ 일반적인 Buffer 삽입이나 Fanout 최적화는합성/P&R Tool이 자동으로 처리하는 경우가 많음.
-※ Clock Fanout 및 Clock 분배는 주로 CTS에서 처리.
-
 ## FPGA Synthesis Result
 
 RTL 설계 후 Vivado 합성을 통해 FPGA 자원 사용량과 타이밍 결과를 확인하였다.
@@ -276,6 +280,8 @@ RTL 설계 후 Vivado 합성을 통해 FPGA 자원 사용량과 타이밍 결과
 
 Utilization Report를 통해 LUT, FF, BRAM, DSP 사용량을 확인하고, Timing Report를 통해 WNS, Critical Path, Fmax를 분석하였다.  
 이를 바탕으로 설계의 병목 지점을 파악하고, pipeline register 추가, 조합논리 분리, high fanout 신호 개선 등의 최적화 방향을 도출하였다.
+```
+
 
 UART(Unviersal Asynchronous Receiver/Transmitter)
 	송신측과 수신측이 공통 클럭선을 공유하지 않는 비동기식 직렬 통신(1:1 통신)
