@@ -1,6 +1,15 @@
 `timescale 1ns/1ps면 1ns는 동작단위고 1ps는 해석단위임
 f(주파수) = 1/T(주기) ex) 100 MHz면 주기는 10 ns
 
+&  : AND 
+|  : OR
+^  : XOR (같으면 0, 다르면 1)
+~  : NOT
+
+&& : Logical AND
+|| : Logical OR
+!  : Logical NOT
+
 ~, | = 비트연산자 : 각 자리 비트끼리 연산
 !, || = 논리연산자 : 값을 전체적으로 보고 참이냐 거짓이냐만 판단
 
