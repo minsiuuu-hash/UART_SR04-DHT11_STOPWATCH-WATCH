@@ -117,16 +117,16 @@ reg [$clog2(100_000)-1:0] counter_r;
 → 0 ~ 99,999를 저장하기 위한 17bit Counter
 
 Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
-발생 원인
+[발생 원인]
 - FF는 Clock Edge에서 입력을 Sampling하는데, 입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
 
-주요 발생 상황
+[주요 발생 상황]
 1) 외부 비동기 입력
    ex) 버튼, UART RX, 외부 센서 신호
 2) CDC (Clock Domain Crossing)
    ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아 Metastability가 발생할 수 있음.
 
-문제점
+[문제점]
 - 출력이 0/1로 안정되는 시간이 늦어짐
 - 뒤쪽 Logic이 잘못된 값을 Sampling할 수 있음
 - 시스템 오동작 가능
