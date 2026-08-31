@@ -281,3 +281,36 @@ DHT11 = 온/습도 센서
 	bit 0 : LOW 약 50us + HIGH 약 26~28us 
 	bit 1 : LOW 약 50us + HIGH 약 70us
 	위 두개로 데이터 0/1 구분.
+
+
+----------------------------------------------------------------
+[Multi-bit CDC 대표 기법]
+
+1. Gray Code = 연속된 값이 변할 때 여러 bit 중 1bit만 바뀌도록 만든 코드.
+
+일반 Binary Counter는 0111 → 1000 처럼 여러 bit가 동시에 바뀔 수 있음.
+CDC 상황에서는 각 bit가 다른 시점에 전달될 수 있어서 중간에 잘못된 값으로 보일 가능성이 있음.
+
+Gray Code는 0100 → 1100처럼 한 번에 1bit만 바뀌므로 CDC에서 값이 깨질 가능성을 줄일 수 있음.
+
+주로
+- Counter 값 전달
+- Async FIFO의 Read/Write Pointer 전달
+에 사용.
+
+2. Async FIFO = 서로 다른 Clock Domain 사이에서 여러 bit 데이터를 안전하게 전달하기 위한 FIFO.
+
+ex) Write 측 : clk_a Read 측  : clk_b
+
+clk_a에서 데이터를 FIFO에 저장하고, clk_b에서 자기 Clock에 맞춰 데이터를 읽음.
+
+데이터 자체를 bit별로 2-FF Synchronizer에 넣는 것이 아니라, FIFO Memory에 저장한 뒤 Read/Write Pointer를 CDC 처리해서 데이터 전달을 관리함.
+
+주로
+- 여러 bit 데이터
+- 데이터가 연속적으로 들어오는 경우
+- 두 Clock의 속도가 다른 경우
+사용함.
+
+※ Pointer는 보통 Gray Code로 변환한 뒤
+   반대 Clock Domain으로 Synchronizing함.
