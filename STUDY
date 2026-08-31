@@ -189,9 +189,10 @@ Tcq(min) + Tcomb(min) ≥ Thold
 
 Race Condition = 둘 이상의 동작이 같은 시점에 실행될 때, 실행 순서에 따라 결과가 달라질 수 있는 현상.
 [주요 발생 상황]
-1. 순차논리에서 Blocking(=) 사용
-2. 여러 always 블록이 같은 신호를 읽고/쓰는 경우
-3. Testbench와 DUT가 같은 시점에 신호를 읽고/쓰는 경우
+1. 순차논리에서 Blocking(=)을 부적절하게 사용
+2. 여러 always 블록이 같은 시점에 서로 관련된 신호를 읽고/쓰는 경우
+3. 여러 블록에서 같은 신호를 동시에 접근하는 경우
+4. Testbench와 DUT가 같은 시점에 신호를 읽고/쓰는 경우
 ex)
 always @(posedge clk)
     a = b;
