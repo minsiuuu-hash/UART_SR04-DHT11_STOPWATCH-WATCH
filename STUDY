@@ -30,10 +30,31 @@ DataType
   장점 : 타이밍 예측 및 분석이 쉬움, 설계/검증이 비교적 쉬움, 큰 시스템 설계에 유리함
   단점 : 클럭 전력 소모가 큼, Critical Path에 의해 최대 동작 주파수가 제한됨, 클럭 분배가 복잡함(CTS, STA, Timing Closure), Clock skew가 발생함
 			SDC로 Timing Constraint 설정 -> STA가 타이밍 만족 여부 분석 ->  CTS를 통해 실제 Clock Tree 구성 ->  다시 STA로 Setup/Hold 확인 -> Timing Closure
-STA = Static Timing Analysis = 정적 타이밍 분석
-SDC = Synopsys Design Constraints = Clock 주기, Input/Output Delay 등의 타이밍 제약조건을 정의하는 형식
-CTS = Clock Tree Synthesis = Clock을 각 Flip-Flop에 적절하게 분배하기 위한 Clock Tree를 구성하는 과정
-Timing Closure = 목표 Clock 주파수에서 모든 Setup/Hold Timing Constraint를 만족하도록 설계와 배치를 반복 수정하는 과정.
+SDC (Synopsys Design Constraints) = "어느 정도 속도로 동작해야 하는지" 타이밍 기준을 설정 ex) Clock 주기, Input/Output Delay 등
+STA (Static Timing Analysis) = SDC에서 정한 기준을 실제 회로가 만족하는지 검사
+→ Setup/Hold Violation 확인
+→ Critical Path 확인
+CTS (Clock Tree Synthesis)= Clock이 각 Flip-Flop까지 적절한 타이밍에 도착하도록 Buffer 등을 이용해 실제 Clock Tree를 구성
+→ Clock Skew 등을 줄이는 과정
+Timing Closure = STA에서 발견된 타이밍 문제를 계속 수정하여 최종적으로 모든 Timing Constraint를 만족시키는 것
+
+
+SDC : "100MHz로 동작시켜야 해" → 기준 설정
+ ↓
+STA : "현재 회로가 100MHz에서 가능한가?" → 검사
+ ↓
+CTS : "Clock을 각 FF에 잘 전달하자" → Clock Tree 구성
+ ↓
+STA : 실제 Clock Delay를 포함해서 다시 검사
+ ↓
+Violation 발생 시 Logic / Placement / Buffer / Pipeline 등 수정
+ ↓
+STA 재검사
+ ↓
+모든 Setup/Hold 만족
+ ↓
+Timing Closure 완료
+
 SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
 
 비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
