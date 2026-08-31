@@ -33,6 +33,7 @@ DataType
 STA = Static Timing Analysis = 정적 타이밍 분석
 SDC = Synopsys Design Constraints = Clock 주기, Input/Output Delay 등의 타이밍 제약조건을 정의하는 형식
 CTS = Clock Tree Synthesis = Clock을 각 Flip-Flop에 적절하게 분배하기 위한 Clock Tree를 구성하는 과정
+Timing Closure = 목표 Clock 주파수에서 모든 Setup/Hold Timing Constraint를 만족하도록 설계와 배치를 반복 수정하는 과정.
 SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
 
 비동기식 = 공통 클럭 없이 이벤트나 입력 변화에 따라 바로 반응하는 방식
