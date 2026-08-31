@@ -38,7 +38,6 @@ CTS (Clock Tree Synthesis)= Clock이 각 Flip-Flop까지 적절한 타이밍에 
 → Clock Skew 등을 줄이는 과정
 Timing Closure = STA에서 발견된 타이밍 문제를 계속 수정하여 최종적으로 모든 Timing Constraint를 만족시키는 것
 
-
 SDC : "100MHz로 동작시켜야 해" → 기준 설정
  ↓
 STA : "현재 회로가 100MHz에서 가능한가?" → 검사
