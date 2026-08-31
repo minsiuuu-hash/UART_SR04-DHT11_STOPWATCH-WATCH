@@ -116,30 +116,46 @@ ex)
 reg [$clog2(100_000)-1:0] counter_r;
 → 0 ~ 99,999를 저장하기 위한 17bit Counter
 
-meta stable = 플립플롭이 0도 아니고 1도 아닌 애매한 상태에 잠깐 빠지는 현상
-  F/F는 클럭 엣지에서 입력을 샘플링해야 하는데, 입력 신호가 setup time / hold time 근처에서 바뀌면
-  출력이 바로 0 또는 1로 안정되지 못하고, 한동안 불안정한 중간 상태가 될 수 있음
-  1) 비동기 입력 
-      ex) 버튼 입력, UART RX, 외부 센서 신호
-  2) Clock Domain Crossing (CDC)
-      ex) clk_a 도메인에서 생성된 신호를 clk_b 도메인에서 바로 받음
-          서로 다른 클럭이라 샘플링 시점이 어긋날 수 있어서 metastability 가능.
-  문제점
-    출력이 0/1로 확정되는 시간이 늦어짐
-    뒤 로직이 잘못된 값으로 인식할 수 있음
-    시스템 오동작 가능
+Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
+발생 원인
+- FF는 Clock Edge에서 입력을 Sampling하는데,
+  입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
 
-  해결법
-    1) 2-stage synchronizer 사용(1-bit)
-		CDC 환경에서 다른 clock domain에서 넘어오는 1-bit 비동기 신호를 destination clock 기준으로 안정화하기 위해 사용하는 구조입니다. 
-		첫 번째 flip-flop에서 metastability가 발생할 수 있지만, 두 번째 flip-flop이 샘플링하기 전까지 한 clock cycle의 안정화 시간을 제공하여 metastability가 뒤 로직으로 전파될 확률을 낮춥니다. 
-		FF 3개써도 되는데, 그러면 시간지연이 되니까 잘 설정해야함
-    2) 멀티비트는 단순 2FF로 끝내면 안 됨(버스 전체를 각 비트별로 동기화하면 타이밍이 어긋날 수 있음, 즉 bit skew 문제)
-        handshake, gray code, async FIFO, Toggle+안정된 데이터(같은 CDC 기법 사용)
-    3) 비동기 입력을 최대한 줄이기
-        버튼 입력은 debounce + synchronizer
-			채터링현상(debounce)을 방지하기위해, 입력이 일정 시간 동안 안정적으로 유지됐을 때만 진짜 입력으로 인정
-        외부 신호는 바로 FSM에 넣지 않기
+주요 발생 상황
+1) 외부 비동기 입력
+   ex) 버튼, UART RX, 외부 센서 신호
+2) CDC (Clock Domain Crossing)
+   ex) clk_a에서 생성된 신호를 clk_b에서 바로 Sampling
+   → 서로 다른 Clock이므로 Sampling 시점이 맞지 않아
+     Metastability가 발생할 수 있음.
+
+문제점
+- 출력이 0/1로 안정되는 시간이 늦어짐
+- 뒤쪽 Logic이 잘못된 값을 Sampling할 수 있음
+- 시스템 오동작 가능
+
+[해결 방법]
+1. 2-FF Synchronizer (주로 1-bit 신호)
+- Destination Clock 기준으로 FF 2개를 연속 연결.
+- 첫 번째 FF에서 Metastability가 발생할 수 있지만,
+  두 번째 FF가 Sampling하기 전까지 안정화 시간을 확보.
+- Metastability 자체를 완전히 없애는 것이 아니라
+  뒤쪽 Logic으로 전파될 확률을 매우 낮추는 방법.
+※ FF를 더 추가하면 안정화 시간은 증가하지만
+   그만큼 Latency도 증가함.
+2. Multi-bit CDC
+- 여러 Bit를 각각 2-FF Synchronizer로 처리하면
+  각 Bit가 서로 다른 Cycle에 안정될 수 있으므로 위험.
+- 데이터 특성에 따라
+  Handshake / Gray Code / Async FIFO 등을 사용.
+※ Gray Code : Counter/Pointer 전달 등에 사용
+※ Async FIFO : 여러 Bit 데이터 전달에 대표적으로 사용
+3. 외부 비동기 입력
+- 외부 신호를 FSM 등에 바로 넣지 않고 Synchronizer를 거쳐 사용.
+- 버튼은 Debounce + Synchronizer 사용.
+Debounce
+= 버튼의 기계적 채터링을 제거하여
+  일정 시간 안정된 입력만 실제 입력으로 인정.
 
 Latch
     level-sensitive
