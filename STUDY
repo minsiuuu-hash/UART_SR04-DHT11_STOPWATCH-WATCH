@@ -20,7 +20,7 @@ DataType
 4 State Logic
 	0 = 논리 0
 	1 = 논리 1
-	x = don't care = short상태
+	X = unknown, 값이 0인지 1인지 결정되지 않은 상태
 		ex) assign w = 1'b0;
 		    assign w = 1'b1;
 	z = high impedence = 전선이 끊어져있는 상태
