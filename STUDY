@@ -1,17 +1,16 @@
 `timescale 1ns/1ps -> 1ns = time unit(시간 단위) 1ps = time precision(시간 정밀도)
 f(주파수) = 1/T(주기) ex) 100 MHz면 주기는 10 ns
 
+비트연산자 = 각 자리 비트끼리 연산
 &  : AND 
 |  : OR
 ^  : XOR (같으면 0, 다르면 1)
 ~  : NOT
 
+논리연산자 = 값을 전체적으로 보고 참이냐 거짓이냐만 판단
 && : Logical AND
 || : Logical OR
 !  : Logical NOT
-
-&, |, ^, ~  = 비트연산자 : 각 자리 비트끼리 연산
-&&, ||, ! = 논리연산자 : 값을 전체적으로 보고 참이냐 거짓이냐만 판단
 
 DataType
 	reg type = 저장할 수 있는 변수, 값을 집어넣을때 (always 블록 안에서 값을 대입하기 위해 사용하는 Verilog 변수 타입)
