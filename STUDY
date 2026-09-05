@@ -40,8 +40,7 @@ assign
 always
 - if / else if : 위에서부터 조건을 검사하므로 우선순위가 존재
 - case : 입력값에 따라 항목을 선택하는 구조로, 일반적으로 명시적 우선순위를 표현하지 않음
-※ 조건들이 서로 배타적(Mutually Exclusive)이면
-   if와 case 모두 합성 시 동일하거나 유사한 MUX 회로로 최적화될 수 있음.
+※ 조건들이 서로 배타적(Mutually Exclusive)이면 if와 case 모두 합성 시 동일하거나 유사한 MUX 회로로 최적화될 수 있음.
 ※ 따라서 코드 문법보다 실제 조건의 중복 여부가 중요함.
 
 begin-end / Blocking / Non-blocking
