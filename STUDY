@@ -316,7 +316,7 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
 	
 	oversampling
     	송신할때는 괜찮은데, 수신할 때 값을 안정적으로 받기 위해서 사용.(표준: 16 oversampling)
-	수신할때, 보통 비트의 가운데에서 받는데, 오차가 누적되어서 다른 영역을 읽을 수도 있음.
+	    수신할때, 보통 비트의 가운데에서 받는데, 오차가 누적되어서 다른 영역을 읽을 수도 있음.
 
 	단점 
 		고속 통신이 불리함.
