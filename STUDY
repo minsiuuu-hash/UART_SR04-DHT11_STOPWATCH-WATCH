@@ -22,7 +22,7 @@ DataType(Verilog)
 	X = unknown, 값이 0인지 1인지 결정되지 않은 상태
 		ex) assign w = 1'b0;
 		    assign w = 1'b1;
-	z = high impedence = 전선이 끊어져있는 상태
+	Z = high impedence = 전선이 끊어져있는 상태
 		ex) assign bus = enable ? data : 1'bz; (inout port)
 
 조합논리(combinational logic)
