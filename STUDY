@@ -26,12 +26,12 @@ DataType(Verilog)
 		ex) assign bus = enable ? data : 1'bz; (inout port)
 
 조합논리(combinational logic)
-  ex) mux, alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
   비동기적 동작, 입력 변하면 출력이 변경됌.
+  ex) mux, alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
 
 순차논리(sequential logic)
-  ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
   동기적 동작, clk 신호에 맞추어 동작
+  ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
 
 [조건문 / MUX 표현]
 assign
