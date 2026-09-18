@@ -194,7 +194,7 @@ Critical Path가 길어지면 → 최소 Clock Period 증가 → 최대 동작 �
 
 Fanout = 하나의 출력 신호가 구동하는 입력의 개수.
 Fanout이 너무 크면 → 부하(Capacitance) 증가 → Routing Delay 증가 → Timing 악화 → Power 증가 가능
-Fanout이 커지면 많은 입력과 긴 배선을 구동해야 하므로 부하 capacitance가 증가하고, 충·방전 및 routing 지연이 커져 timing이 악화됩니다. 또한 dynamic power가 \(P=\alpha CV^2f\)에 비례하기 때문에 capacitance 증가로 전력 소모도 증가할 수 있다.
+Fanout이 커지면 많은 입력과 긴 배선을 구동해야 하므로 부하 capacitance가 증가하고, 충·방전 및 routing 지연이 커져 timing이 악화됩니다. 또한 dynamic power가 (P=αCV2f)에 비례하기 때문에 capacitance 증가로 전력 소모도 증가할 수 있다.
 
 [해결 방법]
 * Buffer 삽입
