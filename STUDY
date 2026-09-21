@@ -144,7 +144,7 @@ Asynchronous Reset = Clock과 관계없이 Reset이 들어오면 즉시 초기�
   장점 : 타이밍 예측 및 분석이 쉬움, 설계/검증이 비교적 쉬움, 큰 시스템 설계에 유리함
   단점 : 클럭 전력 소모가 큼, Critical Path에 의해 최대 동작 주파수가 제한됨, 클럭 분배가 복잡함(CTS, STA, Timing Closure), Clock skew가 발생함
 			SDC로 Timing Constraint 설정 -> STA가 타이밍 만족 여부 분석 ->  CTS를 통해 실제 Clock Tree 구성 ->  다시 STA로 Setup/Hold 확인 -> Timing Closure
-SDC (Synopsys Design Constraints) = "어느 정도 속도로 동작해야 하는지" 타이밍 기준을 설정 ex) Clock 주기, Input/Output Delay 등
+SDC (Synopsys Design Constraints) = "어느 정도 속도로 동작해야 하는지" 타이밍 조건을 설정 ex) Clock 주기, Input/Output Delay 등
 STA (Static Timing Analysis) = SDC에서 정한 기준을 실제 회로가 만족하는지 검사
 → Setup/Hold Violation 확인
 → Critical Path 확인
