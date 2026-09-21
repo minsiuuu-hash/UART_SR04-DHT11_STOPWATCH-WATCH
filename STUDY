@@ -26,11 +26,11 @@ DataType(Verilog)
 		ex) assign bus = enable ? data : 1'bz; (inout port)
 
 조합논리(combinational logic)
-  저장된 상태 없이 현재 입력으로 출력이 결정되는 회로
+  저장된 상태 없이 현재 입력만으로 출력이 결정되는 회로
   ex) mux, alu, gate, decoder(적은비트를 많은비트로,풀다,해석하다라는 뜻)/encoder(많은 비트를 적은 비트로,부호화하다,담다 라는뜻), comparator(비교기)
 
 순차논리(sequential logic)
-  저장된 상태가 동작에 영향을 주는 회로
+  저장된 이전 상태가 현재 동작과 출력에 영향을 주는 회로
   ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
 
 [조건문 / MUX 표현]
