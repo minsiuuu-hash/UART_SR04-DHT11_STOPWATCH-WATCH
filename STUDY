@@ -1,4 +1,4 @@
-`timescale 1ns/1ps -> 1ns = time unit(시간 단위, ex. #1이라고 쓰면 1ns delay) 1ps = time precision(시간 정밀도, 시뮬에서 구분할수있는 최소 시간 간격)
+`timescale 1ns/1ps -> 1ns = time unit(시간 단위, ex. #1이라고 쓰면 1ns delay), 1ps = time precision(시간 정밀도, 시뮬에서 구분할수있는 최소 시간 간격)
 f(주파수) = 1/T(주기) ex) 100 MHz면 주기는 10 ns
 
 비트연산자 = 각 자리 비트끼리 연산
