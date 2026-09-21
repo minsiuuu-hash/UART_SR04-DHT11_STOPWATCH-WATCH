@@ -55,10 +55,7 @@ genvar
 - 반복적인 인스턴스 작성을 줄일 수 있음.
 
 $clog2()
-- 필요한 비트 수를 자동으로 계산할 때 사용.
-ex)
-reg [$clog2(100_000)-1:0] counter_r;
-→ 0 ~ 99,999를 저장하기 위한 17bit Counter
+- 필요한 비트 수를 자동으로 계산할 때 사용. ex) reg [$clog2(100_000)-1:0] counter_r; → 0 ~ 99,999를 저장하기 위한 17bit Counter
 
 FSM(Finite State Machine) = 제어하는 시스템
 	두가지 존재 :  Mealy, Moore
