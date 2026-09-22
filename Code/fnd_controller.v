@@ -44,6 +44,7 @@ module fnd_controller (
         .digit_10 (w_digit_val_int_10),
         .digit_100()
     ); 
+    
     digit_splitter #(
         .BIT_WIDTH(8)
     ) U_VAL_DEC_SP (
@@ -52,7 +53,6 @@ module fnd_controller (
         .digit_10 (w_digit_val_dec_10),
         .digit_100()
     );
-
 
     // stopwatch, watch
     digit_splitter #(
@@ -63,6 +63,7 @@ module fnd_controller (
         .digit_10(w_digit_hour_10),
         .digit_100() 
     );
+    
     digit_splitter #(
         .BIT_WIDTH(6)
     ) U_MIN_SP (
@@ -71,6 +72,7 @@ module fnd_controller (
         .digit_10 (w_digit_min_10),
         .digit_100()
     );
+    
     digit_splitter #(
         .BIT_WIDTH(6)
     ) U_SEC_SP (
@@ -79,6 +81,7 @@ module fnd_controller (
         .digit_10 (w_digit_sec_10),
         .digit_100()
     );
+    
     digit_splitter #(
         .BIT_WIDTH(7)
     ) U_MSECD_SP (
@@ -156,7 +159,6 @@ module fnd_controller (
         .mux_out(w_mux_dht11_out)
     );
 
-
     clk_div U_CLK_DIV (
         .clk(clk),
         .rst(rst),
@@ -181,7 +183,6 @@ module fnd_controller (
 
 endmodule
 
-
 module digit_splitter #(
     parameter BIT_WIDTH = 7
 ) (
@@ -193,6 +194,7 @@ module digit_splitter #(
     assign digit_1 = in_data % 10;
     assign digit_10 = (in_data / 10) % 10;
     assign digit_100 = (in_data / 100) % 10;
+    
 endmodule
 
 
@@ -221,6 +223,7 @@ module bcd (
             default: fnd_data = 8'hFF;
         endcase
     end
+    
 endmodule
 
 module dot_onoff_comp (
@@ -228,6 +231,7 @@ module dot_onoff_comp (
     output dot_onoff
 );
     assign dot_onoff = (msec < 50);
+    
 endmodule
 
 module clk_div (
@@ -250,6 +254,7 @@ module clk_div (
             end
         end
     end
+    
 endmodule
 
 module counter_8 (
@@ -266,6 +271,7 @@ module counter_8 (
             counter_r <= counter_r + 1;
         end
     end
+    
 endmodule
 
 module decoder_2x4 (
@@ -280,6 +286,7 @@ module decoder_2x4 (
             2'b11: fnd_digit = 4'b0111;
         endcase
     end
+    
 endmodule
 
 module mux_8x1 (
@@ -306,4 +313,5 @@ module mux_8x1 (
             3'b111: mux_out = digit_dot_1000;
         endcase
     end
+    
 endmodule
