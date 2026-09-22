@@ -14,7 +14,6 @@ module fifo #(
     output       empty
 );
 
-
     wire [$clog2(DEPTH)-1:0] w_wptr, w_rptr;
 
     register_file #(
