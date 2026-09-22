@@ -8,8 +8,8 @@ module fifo #(
     input        rst,
     input        push,
     input        pop,
-    input  [7:0] push_data,
-    output [7:0] pop_data,
+    input  [BIT_WIDTH - 1:0] push_data,
+    output [BIT_WIDTH - 1:0] pop_data,
     output       full,
     output       empty
 );
