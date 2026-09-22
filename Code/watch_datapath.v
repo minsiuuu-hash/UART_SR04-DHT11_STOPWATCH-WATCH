@@ -174,6 +174,4 @@ module tick_gen_100hz (
         end
     end
 
-
-
 endmodule
