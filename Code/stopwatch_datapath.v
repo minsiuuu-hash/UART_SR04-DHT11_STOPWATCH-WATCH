@@ -28,6 +28,7 @@ module stopwatch_datapath (
         .o_count(hour),
         .o_tick()
     );
+    
     tick_counter #(
         .BIT_WIDTH(6),
         .TIMES(60)
@@ -41,6 +42,7 @@ module stopwatch_datapath (
         .o_count(min),
         .o_tick(w_hour_tick)
     );
+    
     tick_counter #(
         .BIT_WIDTH(6),
         .TIMES(60)
@@ -54,6 +56,7 @@ module stopwatch_datapath (
         .o_count(sec),
         .o_tick(w_min_tick)
     );
+    
     tick_counter #(
         .BIT_WIDTH(7),
         .TIMES(100)
@@ -67,6 +70,7 @@ module stopwatch_datapath (
         .o_count(msec),
         .o_tick(w_sec_tick)
     );
+    
     tick_gen_100hz u_TICK (
         .clk(clk),
         .rst(rst),
@@ -91,7 +95,9 @@ module tick_counter #(
 );
 
     reg [BIT_WIDTH-1:0] counter_reg, counter_next;
+    
     assign o_count = counter_reg;
+    
     always @(posedge clk, posedge rst) begin
         if (rst | clear) begin
             counter_reg <= 0;
@@ -123,6 +129,5 @@ module tick_counter #(
             end
         end
     end
-
 
 endmodule
