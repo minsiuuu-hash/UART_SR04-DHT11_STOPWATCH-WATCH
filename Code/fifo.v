@@ -4,14 +4,14 @@ module fifo #(
     parameter DEPTH = 4,
     BIT_WIDTH = 8
 ) (
-    input        clk,
-    input        rst,
-    input        push,
-    input        pop,
+    input                    clk,
+    input                    rst,
+    input                    push,
+    input                    pop,
     input  [BIT_WIDTH - 1:0] push_data,
     output [BIT_WIDTH - 1:0] pop_data,
-    output       full,
-    output       empty
+    output                   full,
+    output                   empty
 );
 
     wire [$clog2(DEPTH)-1:0] w_wptr, w_rptr;
