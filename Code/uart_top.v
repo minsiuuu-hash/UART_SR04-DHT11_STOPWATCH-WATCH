@@ -117,7 +117,6 @@ module uart_rx (
         bit_cnt_next = bit_cnt_reg;
         b_tick_cnt_next = b_tick_cnt_reg;
         done_next = done_reg;
-
         buf_next = buf_reg;
         case (c_state)
             IDLE: begin
@@ -217,6 +216,7 @@ module uart_tx (
             data_in_buf_reg <= data_in_buf_next;
         end
     end
+    
     always @(*) begin
         n_state = c_state;
         tx_next = tx_reg;
