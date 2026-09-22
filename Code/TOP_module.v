@@ -170,18 +170,21 @@ module TOP_module (
         .i_btn(btn_l),
         .o_btn(o_btn_l)
     );
+    
     btn_debounce U_BTN_R (
         .clk  (clk),
         .rst  (rst),
         .i_btn(btn_r),
         .o_btn(o_btn_r)
     );
+    
     btn_debounce U_BTN_U (
         .clk  (clk),
         .rst  (rst),
         .i_btn(btn_u),
         .o_btn(o_btn_u)
     );
+    
     btn_debounce U_BTN_D (
         .clk  (clk),
         .rst  (rst),
@@ -273,6 +276,7 @@ module mux_sel_stopwatch_watch_distance (
             fnd_in_data = stopwatch_time;
         end
     end
+    
 endmodule
 
 module ascii_decoder (
