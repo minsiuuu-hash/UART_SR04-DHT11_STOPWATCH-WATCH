@@ -50,6 +50,7 @@ module watch_datapath (
         .o_tick(w_hour_tick),
         .o_count(min)
     );
+    
     tick_counter_watch #(
         .BIT_WIDTH(6),
         .TIMES(60),
@@ -169,7 +170,6 @@ module tick_gen_100hz (
                 end
             end else begin
                 o_tick_100hz <= 1'b0;
-
             end
         end
     end
