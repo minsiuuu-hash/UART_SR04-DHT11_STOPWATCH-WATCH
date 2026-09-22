@@ -26,6 +26,32 @@ module btn_avg_controller (
     reg [16:0] sum_temp;
     reg [16:0] sum_hum;
 
+    // Convert {integer, two decimal digits} into one scaled value before averaging.
+    localparam [16:0] DHT_SCALE = 17'd100;
+    wire [16:0] temperature_scaled;
+    wire [16:0] humidity_scaled;
+    wire [16:0] avg_temperature_scaled;
+    wire [16:0] avg_humidity_scaled;
+    wire [7:0] avg_temperature_integer;
+    wire [7:0] avg_temperature_decimal;
+    wire [7:0] avg_humidity_integer;
+    wire [7:0] avg_humidity_decimal;
+
+    assign temperature_scaled =
+        ({9'd0, i_temperature[15:8]} * DHT_SCALE) +
+        {9'd0, i_temperature[7:0]};
+    assign humidity_scaled =
+        ({9'd0, i_humidity[15:8]} * DHT_SCALE) +
+        {9'd0, i_humidity[7:0]};
+
+    // Convert the two-sample average back to the original {integer, decimal} format.
+    assign avg_temperature_scaled  = sum_temp >> 1;
+    assign avg_humidity_scaled     = sum_hum >> 1;
+    assign avg_temperature_integer = avg_temperature_scaled / DHT_SCALE;
+    assign avg_temperature_decimal = avg_temperature_scaled % DHT_SCALE;
+    assign avg_humidity_integer    = avg_humidity_scaled / DHT_SCALE;
+    assign avg_humidity_decimal    = avg_humidity_scaled % DHT_SCALE;
+
     // 16times measuring
     reg is_measuring;
 
@@ -77,15 +103,17 @@ module btn_avg_controller (
                     if (tick_1ms && (ms_timer == 0 || ms_timer == 1000))
                         o_dht11_start <= 1;
                     if (tick_1ms && (ms_timer == 500 || ms_timer == 1500)) begin
-                        sum_temp <= sum_temp + i_temperature;
-                        sum_hum  <= sum_hum + i_humidity;
+                        // Add scaled values so carries cannot cross the two packed fields.
+                        sum_temp <= sum_temp + temperature_scaled;
+                        sum_hum  <= sum_hum + humidity_scaled;
                     end
                 end
                 if (tick_1ms && ms_timer == 1999) begin // 2sec, 16times average
                     if (mode_sr04) o_avg_distance <= sum_dist >> 4; // shift calc
                     if (mode_dht11) begin
-                        o_avg_temperature <= sum_temp >> 1;
-                        o_avg_humidity <= sum_hum >> 1;
+                        // Preserve the interface expected by the FND and ASCII sender.
+                        o_avg_temperature <= {avg_temperature_integer, avg_temperature_decimal};
+                        o_avg_humidity <= {avg_humidity_integer, avg_humidity_decimal};
                     end
                     is_measuring <= 0; 
                 end

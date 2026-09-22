@@ -44,6 +44,7 @@ module TOP_module (
 
     wire [ 7:0] w_sender_data;
     wire        w_sender_tx_start;
+    wire        w_sender_busy;  // ASCII sender의 TX FIFO 사용 구간
     wire        w_tx_full;
 
     wire [ 7:0] w_final_tx_data;
@@ -68,7 +69,8 @@ module TOP_module (
     assign w_asc_btn[2] = o_btn_d || w_ascii_data[0];
     assign w_asc_btn[3] = o_btn_u || w_ascii_data[1];
 
-    assign w_rx_pop = (~w_rx_empty) & (~w_tx_full);
+    // 응답 준비/전송 중에는 RX 문자를 보관하여 echo 충돌과 추가 's' 요청 유실을 막는다.
+    assign w_rx_pop = (~w_rx_empty) & (~w_tx_full) & (~w_sender_busy);
 
     // 's' detect
     wire w_send_trigger;
@@ -135,7 +137,8 @@ module TOP_module (
         .i_sec(w_watch_time[12:7]),
         .i_msec(w_watch_time[6:0]),
         .o_tx_start(w_sender_tx_start),
-        .o_tx_data(w_sender_data)
+        .o_tx_data(w_sender_data),
+        .o_busy(w_sender_busy)  // sender가 IDLE로 돌아오면 RX 처리를 재개
     );
 
     ascii_decoder U_ASCII_DECODER (
