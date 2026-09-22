@@ -92,6 +92,7 @@ module btn_avg_controller (
             end
         end
     end
+    
 endmodule
 
 module tick_gen_1khz (
@@ -117,4 +118,5 @@ module tick_gen_1khz (
             end
         end
     end
+    
 endmodule
