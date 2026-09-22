@@ -108,7 +108,6 @@ module ascii_sender (
                         mn10 <= 0;
                         sc10 <= 0;
                         ms10 <= 0;
-
                         state <= CALC_100;
                     end
                 end
@@ -186,16 +185,13 @@ module ascii_sender (
                         end
                     end
                 end
-
                 //BCD
                 WAIT_TX: begin
                     if (!i_tx_busy) state <= SEND;
                 end
-
                 SEND: begin
                     o_tx_start <= 1'b1;  // FIFO ON
                     state <= NEXT_CHAR;
-
                     if (mode_reg == 2'd0) begin  // STOPWATCH/WATCH
                         case (char_index)
                             0: o_tx_data <= hr10 + 8'h30;
@@ -256,7 +252,6 @@ module ascii_sender (
                         endcase
                     end
                 end
-
                 NEXT_CHAR: begin
                     o_tx_start <= 1'b0; 
                     if ((mode_reg == 2'd0 && char_index == 4'd12) || 
@@ -268,7 +263,6 @@ module ascii_sender (
                         state <= WAIT_TX;
                     end
                 end
-
                 default: state <= IDLE;
             endcase
         end
