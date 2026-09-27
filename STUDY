@@ -106,7 +106,7 @@ Tcq(max) + Tcomb(max) + Tsetup ≤ Tclock
 [Hold 조건]
 Tcq(min) + Tcomb(min) ≥ Thold
 ※ 실제 STA에서는 Clock Skew/Jitter 등도 함께 고려함.
-Skew = 위치/경로 차이 → 같은 CLK가 서로 다른 FF에 도착하는 시간이 다름
+Skew = 위치/경로 차이 → 같은 CLK에서 출발해서 서로 다른 FF에 도착하는 시간이 다름
 Jitter = 시간 변동 → 같은 지점에서도 CLK edge 발생 시점이 매번 조금씩 달라짐
 
 Slack = 요구된 Timing과 실제 Timing 사이의 여유시간.
