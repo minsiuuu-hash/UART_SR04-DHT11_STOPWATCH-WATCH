@@ -115,7 +115,7 @@ Slack = 요구된 Timing과 실제 Timing 사이의 여유시간.
 	Slack < 0 → Timing Violation 발생.
 	WNS (Worst Negative Slack) = 전체 경로 중 가장 나쁜 Slack 값.
 
-Setup Violation = 데이터가 다음 Clock Edge 전에 FF에 충분히 일찍 도착하지 못한 경우.→ Data Path가 너무 느린 문제.
+Setup Violation = 데이터가 다음 Clock Edge 전에 FF에 충분히 일찍 도착하지 못한 경우 → Data Path가 너무 느린 문제
 	* 조합논리 Delay 감소
 	* Pipeline Register 추가
 	* Critical Path 분리 / Logic 단순화
@@ -124,7 +124,7 @@ Setup Violation = 데이터가 다음 Clock Edge 전에 FF에 충분히 일찍 �
 	* 필요 시 Clock 주기를 늘려 Frequency 감소
 	※ Setup 문제 = 데이터가 너무 늦게 도착
 
-Hold Violation = Clock Edge 직후 Data가 너무 빨리 변해서 필요한 Hold Time을 만족하지 못하는 경우. → Data Path가 너무 빠른 문제.
+Hold Violation = Clock Edge 직후 Data가 너무 빨리 변해서 필요한 Hold Time을 만족하지 못하는 경우 → Data Path가 너무 빠른 문제
 	* Data Path에 Buffer / Delay Cell 추가
 	* Routing을 조정해 Delay 증가
 	* Cell / Placement 최적화
