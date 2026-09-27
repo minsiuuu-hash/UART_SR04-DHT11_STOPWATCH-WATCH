@@ -183,7 +183,7 @@ Fanout이 커지면 많은 입력과 긴 배선을 구동해야 하므로 부하
 * Buffer 삽입
 * Register / Logic Duplication
 * High Fanout Signal 분산
-※ 일반적인 Buffer 삽입이나 Fanout 최적화는합성/P&R Tool이 자동으로 처리하는 경우가 많음.
+※ 일반적인 Buffer 삽입이나 Fanout 최적화는 합성/P&R Tool이 자동으로 처리하는 경우가 많음.
 ※ Clock Fanout 및 Clock 분배는 주로 CTS에서 처리.
 
 Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
