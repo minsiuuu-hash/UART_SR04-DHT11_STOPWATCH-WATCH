@@ -11,6 +11,7 @@ The design contains 13 independent synchronizers (26 flip-flops):
 - Button sampling uses the existing 100 kHz pulse as a clock enable on `clk`.
   The eight-sample debounce rule is unchanged.
 
+The synchronizer RTL uses ordinary register declarations without placement/SRL attributes.
 The reset architecture is unchanged. Switch bits are synchronized independently;
 this does not provide an atomic multi-bit mode update. Digital simulation checks
 functional behavior and sampling latency, not analog metastability or board timing.
@@ -73,14 +74,23 @@ From a separate build directory, run:
 vivado -mode batch -source /path/to/Verification_Code/synth_external_sync.tcl
 ```
 
-The script synthesizes `TOP_module` for `xc7a35tcpg236-1` and fails if the 26
-`ASYNC_REG` flip-flops are not preserved. It produces `sync_utilization.rpt`.
+The script synthesizes `TOP_module` for `xc7a35tcpg236-1` and checks for the 26
+synchronizer flip-flops by register name. It produces `sync_utilization.rpt`.
 This is a synthesis check, not a placed-and-routed timing or physical board test.
 
-## Recorded result (2026-09-28)
+## Recorded result before attribute removal (2026-09-28)
 
 Vivado 2023.2 completed the regression with `PASS ALL external input synchronization regressions`:
 61 UART bytes matched, all four buttons and six switches passed, SR04 returned
 10/100/200 cm, and both DHT frames matched their data and checksums. Synthesis
-passed with all 26 `ASYNC_REG` flip-flops preserved and zero synthesis errors.
+passed with all 26 marked synchronizer flip-flops preserved and zero synthesis errors.
 The pre-existing watch port-width warnings remain. No physical board test was run.
+
+## Recorded result after attribute removal (2026-09-28)
+
+The full regression was rerun in Vivado 2023.2 and passed: 61 UART bytes,
+four buttons, six switches, SR04 measurements of 10/100/200 cm, and two DHT frames.
+Synthesis also passed with all 13 synchronizer chains / 26 flip-flops preserved,
+with zero synthesis errors and zero synthesis critical warnings.
+These checks do not verify physical placement, metastability reliability, or
+operation on the board after removing the attributes.

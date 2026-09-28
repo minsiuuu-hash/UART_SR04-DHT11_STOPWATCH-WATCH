@@ -9,8 +9,7 @@ module sync_2ff #(
     input  wire async_in,
     output wire sync_out
 );
-    // 두 FF를 가깝게 배치하고 shift-register로 합쳐지지 않도록 지정한다.
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg meta_ff, sync_ff;
+    reg meta_ff, sync_ff;
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
