@@ -15,6 +15,12 @@ module sr04_controller (
 
     wire w_1us_tick;
 
+    // 비동기 echo의 두 번째 FF 출력으로 상승/하강과 펄스 폭을 판정한다.
+    wire echo_sync;
+    sync_2ff U_SYNC_ECHO (
+        .clk(clk), .rst(rst), .async_in(echo), .sync_out(echo_sync)
+    );
+
     reg [2:0] c_state, n_state;
     reg [$clog2(BIT_WIDTH)-1:0] tick_cnt_reg, tick_cnt_next;  // 60msec delay
     reg [$clog2(400)-1:0] dist_reg, dist_next;  // distance max 400cm
@@ -75,14 +81,14 @@ module sr04_controller (
                 end
             end
             WAIT: begin
-                if (echo == 1'b1) begin
+                if (echo_sync == 1'b1) begin
                     n_state = DIST;
                     tick_cnt_next = 0;
                 end
             end
             DIST: begin
                 if (w_1us_tick == 1'b1) begin
-                    if (echo == 1'b1) begin
+                    if (echo_sync == 1'b1) begin
                         tick_cnt_next = tick_cnt_reg + 1;
                     end else begin
                         n_state = AG_IDLE;

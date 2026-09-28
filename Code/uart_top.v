@@ -96,6 +96,12 @@ module uart_rx (
     assign rx_data = buf_reg;
     assign rx_done = done_reg;
 
+    // UART 유휴 레벨은 HIGH. 직렬 입력을 동기화한 뒤 FSM에서 사용한다.
+    wire rx_sync;
+    sync_2ff #(.INIT(1'b1)) U_SYNC_RX (
+        .clk(clk), .rst(rst), .async_in(rx), .sync_out(rx_sync)
+    );
+
     always @(posedge clk, posedge rst) begin
         if (rst) begin
             c_state <= 2'b0;
@@ -124,7 +130,7 @@ module uart_rx (
                 b_tick_cnt_next = 5'd0;
                 done_next = 1'b0;
                 buf_next = 8'd0;
-                if (b_tick && !rx) begin
+                if (b_tick && !rx_sync) begin
                     n_state = START;
                 end
             end
@@ -132,7 +138,7 @@ module uart_rx (
                 if (b_tick) begin
                     if (b_tick_cnt_reg == 5'd7) begin
                         b_tick_cnt_next = 5'd0;
-                        if (rx == 1'b0)
+                        if (rx_sync == 1'b0)
                             n_state = DATA;
                         else
                             n_state = IDLE;
@@ -145,7 +151,7 @@ module uart_rx (
                 if (b_tick) begin
                     if (b_tick_cnt_reg == 5'd15) begin
                         b_tick_cnt_next = 5'd0;
-                        buf_next = {rx, buf_reg[7:1]};
+                        buf_next = {rx_sync, buf_reg[7:1]};
                         if (bit_cnt_reg == 3'd7) begin
                             n_state = STOP;
                         end else begin

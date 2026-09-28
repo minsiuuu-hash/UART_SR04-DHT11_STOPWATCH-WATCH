@@ -12,6 +12,12 @@ module btn_debounce (
     reg [$clog2(F_COUNT)-1:0] counter_reg;
     reg CLK_100khz_reg;
 
+    // 버튼 접점은 먼저 clk에 동기화하고, 이후 기존 8회 샘플 판정을 적용한다.
+    wire btn_sync;
+    sync_2ff U_SYNC_BTN (
+        .clk(clk), .rst(rst), .async_in(i_btn), .sync_out(btn_sync)
+    );
+
     always @(posedge clk, posedge rst) begin
         if (rst) begin
             counter_reg <= 0;
@@ -33,16 +39,17 @@ module btn_debounce (
     reg  edge_reg;
     wire debounce;
 
-    always @(posedge CLK_100khz_reg, posedge rst) begin
+    // 샘플링 펄스를 enable로 사용해 2FF, debounce, edge 검출을 같은 clk에 둔다.
+    always @(posedge clk, posedge rst) begin
         if (rst) begin
             q_reg <= 0;
         end else begin
-            q_reg <= q_next;
+            if (CLK_100khz_reg) q_reg <= q_next;
         end
     end
 
     always @(*) begin
-        q_next = {i_btn, q_reg[7:1]};
+        q_next = {btn_sync, q_reg[7:1]};
     end
 
     assign debounce = &q_reg;

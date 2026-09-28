@@ -23,6 +23,18 @@ module TOP_module (
     output [3:0] fnd_digit,
     output [7:0] fnd_data
 );
+    // 스위치는 독립된 1비트씩 동기화한다. 여러 스위치의 원자적 변경은 보장하지 않는다.
+    wire [5:0] sw_sync;
+    genvar sw_index;
+    generate
+        for (sw_index = 0; sw_index < 6; sw_index = sw_index + 1) begin : G_SYNC_SW
+            sync_2ff U_SYNC_SW (
+                .clk(clk), .rst(rst),
+                .async_in(sw[sw_index]), .sync_out(sw_sync[sw_index])
+            );
+        end
+    endgenerate
+
     wire [3:0] w_asc_btn;
     wire o_btn_l, o_btn_r, o_btn_u, o_btn_d;
     wire w_mode, w_run_stop, w_clear, w_up_l, w_up_r, w_down_u, w_down_d;
@@ -58,14 +70,14 @@ module TOP_module (
     wire        w_dht11_start;
 
     wire [ 3:0] w_mux_sel;
-    assign w_mux_sel = {sw[4], sw[5], sw[3], sw[1]};
+    assign w_mux_sel = {sw_sync[4], sw_sync[5], sw_sync[3], sw_sync[1]};
 
     // to sender
     wire [1:0] w_sender_mode;
-    assign w_sender_mode = (sw[4]) ? (sw[5] ? 2'd3 : 2'd2) : (sw[3] ? 2'd1 : 2'd0);
+    assign w_sender_mode = (sw_sync[4]) ? (sw_sync[5] ? 2'd3 : 2'd2) : (sw_sync[3] ? 2'd1 : 2'd0);
 
     assign w_asc_btn[0] = o_btn_l || w_ascii_data[2];
-    assign w_asc_btn[1] = (sw[3] == 0 && sw[4] == 0) ? (o_btn_r || w_ascii_data[3]) : 1'b0; // only watch
+    assign w_asc_btn[1] = (sw_sync[3] == 0 && sw_sync[4] == 0) ? (o_btn_r || w_ascii_data[3]) : 1'b0; // only watch
     assign w_asc_btn[2] = o_btn_d || w_ascii_data[0];
     assign w_asc_btn[3] = o_btn_u || w_ascii_data[1];
 
@@ -86,8 +98,8 @@ module TOP_module (
         .clk(clk),
         .rst(rst),
         .btn_r(o_btn_r || w_ascii_data[3]),
-        .mode_sr04(sw[3] == 1'b1 && sw[4] == 1'b0),
-        .mode_dht11(sw[4] == 1'b1),
+        .mode_sr04(sw_sync[3] == 1'b1 && sw_sync[4] == 1'b0),
+        .mode_dht11(sw_sync[4] == 1'b1),
         .i_distance(w_distance),
         .i_temperature(w_temperature),
         .i_humidity(w_humidity),
@@ -198,8 +210,8 @@ module TOP_module (
     control_unit U_CONTROL (
         .clk(clk),
         .rst(rst),
-        .i_sel_mode(sw[1]),
-        .i_mode(sw[0]),
+        .i_sel_mode(sw_sync[1]),
+        .i_mode(sw_sync[0]),
         .i_run_stop(w_asc_btn[1]),
         .i_clear(w_asc_btn[0]),
         .i_down_u(w_asc_btn[3]),
@@ -229,7 +241,7 @@ module TOP_module (
     watch_datapath U_WATCH (
         .clk(clk),
         .rst(rst),
-        .sel_display(sw[2]),
+        .sel_display(sw_sync[2]),
         .up_l(w_up_l),
         .up_r(w_up_r),
         .down_l(w_down_u),
@@ -244,9 +256,9 @@ module TOP_module (
     fnd_controller U_FND_CNT (
         .clk         (clk),
         .rst         (rst),
-        .sel_display (sw[2]),
-        .sel_distance(sw[3]),
-        .sel_dht11   (sw[4]),
+        .sel_display (sw_sync[2]),
+        .sel_distance(sw_sync[3]),
+        .sel_dht11   (sw_sync[4]),
         .fnd_in_data (w_fnd_in_data),
         .fnd_digit   (fnd_digit),
         .fnd_data    (fnd_data)

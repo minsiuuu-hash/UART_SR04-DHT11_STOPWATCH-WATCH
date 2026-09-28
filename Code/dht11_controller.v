@@ -14,6 +14,12 @@ module dht11_controller (
 
     wire tick_10u;
 
+    // 양방향 핀의 출력 제어는 유지하고, 읽기 경로만 HIGH 초기값의 2FF로 동기화한다.
+    wire dhtio_sync;
+    sync_2ff #(.INIT(1'b1)) U_SYNC_DHT (
+        .clk(clk), .rst(rst), .async_in(dhtio), .sync_out(dhtio_sync)
+    );
+
     tick_gen_10u U_TICK_10u (
         .clk(clk),
         .rst(rst),
@@ -101,21 +107,21 @@ module dht11_controller (
             end
             SYNC_L: begin
                 if (tick_10u) begin
-                    if (dhtio == 1) begin
+                    if (dhtio_sync == 1) begin
                         n_state = SYNC_H;
                     end
                 end
             end
             SYNC_H: begin
                 if (tick_10u) begin
-                    if (dhtio == 0) begin
+                    if (dhtio_sync == 0) begin
                         n_state = DATA_SYNC;
                     end
                 end
             end
             DATA_SYNC: begin
                 if (tick_10u) begin
-                    if (dhtio == 1) begin
+                    if (dhtio_sync == 1) begin
                         n_state = DATA_C;
                         tick_cnt_next = 0;
                     end
@@ -123,7 +129,7 @@ module dht11_controller (
             end
             DATA_C: begin
                 if (tick_10u) begin
-                    if (dhtio == 1) begin
+                    if (dhtio_sync == 1) begin
                         tick_cnt_next = tick_cnt_reg + 1;
                     end else begin
                         if (tick_cnt_reg < 5) begin  // 50usec 
