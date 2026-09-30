@@ -81,7 +81,7 @@ module TOP_module (
     assign w_asc_btn[2] = o_btn_d || w_ascii_data[0];
     assign w_asc_btn[3] = o_btn_u || w_ascii_data[1];
 
-    // 응답 준비/전송 중에는 RX 문자를 보관하여 echo 충돌과 추가 's' 요청 유실을 막는다.
+    // Hold RX data while the ASCII sender is busy.
     assign w_rx_pop = (~w_rx_empty) & (~w_tx_full) & (~w_sender_busy);
 
     // 's' detect
