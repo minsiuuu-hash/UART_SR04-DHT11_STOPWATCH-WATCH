@@ -23,8 +23,8 @@ module TOP_module (
     output [3:0] fnd_digit,
     output [7:0] fnd_data
 );
-    // 스위치는 독립된 1비트씩 동기화한다. 여러 스위치의 원자적 변경은 보장하지 않는다.
-    wire [5:0] sw_sync;
+
+    wire [5:0] sw_sync; // each switch bit is synchronized independently.
     genvar sw_index;
     generate
         for (sw_index = 0; sw_index < 6; sw_index = sw_index + 1) begin : G_SYNC_SW
