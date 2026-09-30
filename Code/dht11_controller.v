@@ -14,7 +14,7 @@ module dht11_controller (
 
     wire tick_10u;
 
-    // 양방향 핀의 출력 제어는 유지하고, 읽기 경로만 HIGH 초기값의 2FF로 동기화한다.
+    // Synchronize only the input path with a 2FF reset to HIGH; leave output control unchanged.
     wire dhtio_sync;
     sync_2ff #(.INIT(1'b1)) U_SYNC_DHT (
         .clk(clk), .rst(rst), .async_in(dhtio), .sync_out(dhtio_sync)
