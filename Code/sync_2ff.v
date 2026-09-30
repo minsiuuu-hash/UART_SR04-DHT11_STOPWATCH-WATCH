@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-// 독립적인 1비트 외부 입력용 동기화기. 짧은 펄스/멀티비트 전송용 handshake는 아니다.
+// INIT is the reset value of many modules(UART RX and DHT11 use 1; other inputs use 0)
 module sync_2ff #(
     parameter INIT = 1'b0
 ) (
