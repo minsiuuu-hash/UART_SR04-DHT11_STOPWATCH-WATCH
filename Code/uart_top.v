@@ -96,7 +96,7 @@ module uart_rx (
     assign rx_data = buf_reg;
     assign rx_done = done_reg;
 
-    // UART 유휴 레벨은 HIGH. 직렬 입력을 동기화한 뒤 FSM에서 사용한다.
+    // UART idles HIGH; synchronize RX before using it in the FSM.
     wire rx_sync;
     sync_2ff #(.INIT(1'b1)) U_SYNC_RX (
         .clk(clk), .rst(rst), .async_in(rx), .sync_out(rx_sync)
