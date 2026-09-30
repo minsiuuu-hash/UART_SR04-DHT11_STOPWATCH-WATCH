@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-// INIT is the reset value of many modules(UART RX and DHT11 use 1; other inputs use 0)
+// INIT: 1 for UART RX and DHT11, 0 for other inputs.
 module sync_2ff #(
     parameter INIT = 1'b0
 ) (
