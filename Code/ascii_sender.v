@@ -18,7 +18,7 @@ module ascii_sender (
 
     output reg o_tx_start,
     output reg [7:0] o_tx_data,
-    output o_busy  // 문자열 준비부터 마지막 TX FIFO 쓰기까지 사용 중임을 알림
+    output o_busy  // High from message preparation through the final TX FIFO write.
 );
 
     // FSM STATE
@@ -33,7 +33,7 @@ module ascii_sender (
     reg [ 3:0] char_index;
     reg [ 1:0] mode_reg;
 
-    // 마지막 문자가 FIFO에 기록되는 NEXT_CHAR 상태까지 busy를 유지한다.
+    // Keep busy high through the final FIFO write in NEXT_CHAR.
     assign o_busy = (state != IDLE);
 
     // do minus register
