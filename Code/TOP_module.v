@@ -56,7 +56,7 @@ module TOP_module (
 
     wire [ 7:0] w_sender_data;
     wire        w_sender_tx_start;
-    wire        w_sender_busy;  // ASCII sender의 TX FIFO 사용 구간
+    wire        w_sender_busy;  // High while the ASCII sender is using the TX FIFO.
     wire        w_tx_full;
 
     wire [ 7:0] w_final_tx_data;
@@ -150,7 +150,7 @@ module TOP_module (
         .i_msec(w_watch_time[6:0]),
         .o_tx_start(w_sender_tx_start),
         .o_tx_data(w_sender_data),
-        .o_busy(w_sender_busy)  // sender가 IDLE로 돌아오면 RX 처리를 재개
+        .o_busy(w_sender_busy)  // Resume RX processing when the sender returns to IDLE.
     );
 
     ascii_decoder U_ASCII_DECODER (
