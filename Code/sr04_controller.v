@@ -15,7 +15,7 @@ module sr04_controller (
 
     wire w_1us_tick;
 
-    // 비동기 echo의 두 번째 FF 출력으로 상승/하강과 펄스 폭을 판정한다.
+    // Use the second FF output to detect echo edges and measure pulse width.
     wire echo_sync;
     sync_2ff U_SYNC_ECHO (
         .clk(clk), .rst(rst), .async_in(echo), .sync_out(echo_sync)
