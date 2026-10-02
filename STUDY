@@ -238,6 +238,13 @@ Glitch = 짧은 순간 의도치 않게 튀는 신호(조합논리의 경로별 
 		순차회로 출력은 clock edge에서만 바뀌므로 glitch에 강하다.
 		비동기 입력은 반드시 동기화해야 한다. 버튼 입력은 debounce가 필요하다. clock을 조합논리로 만들면 위험하다.
 
+Glitch-Free Clock MUX
+- 여러 Clock Source 중 하나를 Glitch 없이 안전하게 선택하는 구조.
+- 일반 MUX로 Clock을 선택하면 sel 변경 시 Runt Pulse / 잘못된 Clock Edge가 발생할 수 있음.
+- Low-level Latch 또는 Negedge FF를 이용해 Clock HIGH 동안 Enable이 변하지 않도록 함.
+- 기존 Clock을 먼저 끄고 새 Clock을 켜는 Break-Before-Make 방식 사용.
+※ FPGA에서는 보통 전용 Clock MUX / Clock Buffer Resource를 사용.
+
 Race Condition = 둘 이상의 동작이 같은 시점에 실행될 때, 실행 순서에 따라 결과가 달라질 수 있는 현상.
 [주요 발생 상황]
 1. 순차논리에서 Blocking(=)을 부적절하게 사용
