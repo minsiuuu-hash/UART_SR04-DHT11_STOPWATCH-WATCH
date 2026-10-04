@@ -111,6 +111,9 @@ Tcq(min) + Tcomb(min) ≥ Thold
 ※ 실제 STA에서는 Clock Skew/Jitter 등도 함께 고려함.
 Skew = 위치/경로 차이 → 같은 CLK에서 출발해서 서로 다른 FF에 도착하는 시간이 다름
 Jitter = 시간 변동 → 같은 지점에서도 CLK edge 발생 시점이 매번 조금씩 달라짐
+Skew / Jitter의 공통 영향
+→ Clock timing margin을 감소시킬 수 있음
+→ 그 결과 Setup/Hold Violation이 발생할 가능성이 증가함
 
 Slack = 요구된 Timing과 실제 Timing 사이의 여유시간.
 	Slack > 0 → Timing 만족, 여유시간 있음.
