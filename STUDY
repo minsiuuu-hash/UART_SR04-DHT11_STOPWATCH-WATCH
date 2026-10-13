@@ -194,7 +194,7 @@ Fanout이 커지면 많은 입력과 긴 배선을 구동해야 하므로 부하
 
 Metastability = Flip-Flop이 0 또는 1로 바로 결정되지 못하고 잠시 불안정한 중간 상태에 머무르는 현상.
 [발생 원인]
-- FF는 Clock Edge에서 입력을 Sampling하는데, 입력이 Setup/Hold Time 근처에서 변하면 발생할 수 있음.
+- FF는 Clock Edge에서 입력을 Sampling하는데, 입력 데이터가 Setup/Hold Time을 위반하면 Metastability가 발생할 수 있음.
 
 [주요 발생 상황]
 1) 외부 비동기 입력
