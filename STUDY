@@ -314,7 +314,7 @@ UART(Unviersal Asynchronous Receiver/Transmitter)
 	    수신할때, 보통 비트의 가운데에서 받는데, 오차가 누적되어서 다른 영역을 읽을 수도 있음.
 
 	단점 
-		고속 통신이 불리함.
+		고속 통신이 불리함(baud rate가 높을수록 1bit의 전송시간이 줄고, 송수신부에 baud rate 차이가 있으면 오차가 누적됨).
 		UART는 공통 클럭선이 없어서, 송신기와 수신기가 각자 내부 클럭으로 baud timing을 맞춤.
       	이때 baud rate 오차, 클럭 오차, 샘플링 시점 오차가 누적되면, 고속일수록 수신 에러 가능성이 커질 수 있음
 
