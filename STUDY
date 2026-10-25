@@ -157,8 +157,8 @@ STA (Static Timing Analysis) = SDC에서 정한 기준을 실제 회로가 만�
 CTS (Clock Tree Synthesis)= Clock이 각 Flip-Flop까지 적절한 타이밍에 도착하도록 Buffer 등을 이용해 실제 Clock Tree를 구성
 → Clock Skew 등을 줄이는 과정
 Timing Closure = STA에서 발견된 타이밍 문제를 계속 수정하여 최종적으로 모든 Timing Constraint를 만족시키는 것.
-먼저 SDC로 timing 조건을 정의하고, ideal clock 기준으로 STA를 수행해 데이터 경로에 큰 문제가 없는지 확인한다. 
-그 후 CTS로 실제 clock tree를 구성한 뒤, clock latency/skew가 반영된 상태에서 다시 STA를 수행한다. 
+먼저 SDC로 timing 조건을 정의하고, Synthesis 후에 ideal clock 기준으로 STA를 수행해 데이터 경로에 큰 문제가 없는지 확인한다. 
+그 후 Placement 진행한 후 CTS로 실제 clock tree를 구성한 뒤, clock latency/skew가 반영된 상태에서 Routing 진행한 후 다시 STA를 수행한다. 
 이후 setup/hold violation이 없어질 때까지 placement, buffering, sizing, routing 등을 반복적으로 수정해 timing을 만족시키는 과정이 timing closure다.
 
 SoC와 FPGA 모두 일반적으로 동기식 설계를 사용함.
