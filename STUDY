@@ -34,7 +34,7 @@ Throughput = 일정 시간 동안 몇 개의 데이터를 처리할 수 있는�
 
 순차논리(sequential logic)
   저장된 이전 상태가 현재 동작과 출력에 영향을 주는 회로
-  ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine,유한 상태 머신)
+  ex) counter, clk_divider, FF, 레지스터, FSM(finite state machine, 유한 상태 머신)
 
 [조건문 / MUX 표현]
 assign
