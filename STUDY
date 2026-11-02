@@ -366,6 +366,11 @@ FIFO(First In First Out, buffer, queue) <-> LIFO(Last In First Out, stack)
 	데이터를 꺼내는 순서가 핵심.
 	저장공간(BRAM,SRAM)이 필요함.
 	FIFO 구조 = RAM + write pointer + read pointer + full/empty logic
+	구현예시)
+		FIFO는 저장 공간과 포인터 제어부로 나눠 구현했습니다. Full이 아닐 때 Push를 받아 데이터를 저장하고 쓰기 포인터를 증가시켰으며, 
+		Empty가 아닐 때 Pop을 받아 읽기 포인터를 증가시켰습니다. 
+		쓰기 후 포인터가 만나면 Full, 읽기 후 만나면 Empty로 판단하고 별도의 플래그에 저장했습니다. 
+		데이터 출력은 현재 읽기 포인터의 값을 보여 주고, Pop이 들어오면 다음 데이터로 넘어가는 방식입니다.
 	LIFO 구조 = RAM + stack pointer + full/empty logic
 	그냥 바로 처리 가능하면 FIFO/LIFO 없어도 됨. 하지만 "데이터가 들어오는 속도와 처리하는 속도"가 다르거나, 데이터를 잃으면 안 되면 FIFO/LIFO 같은 버퍼가 필요함.
 
